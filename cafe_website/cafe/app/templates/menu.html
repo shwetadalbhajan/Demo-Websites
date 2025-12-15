@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Menu | L'Artisan Café — Noir Edition</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Hammersmith+One&family=Solway:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- FontAwesome for icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+  <meta name="theme-color" content="#0b0b0b">
+
+  <style>
+    /*
+      Enhanced Theme: Dark (black & white) with silver & gold accents
+      Colors:
+        --bg: main black
+        --panel: near-black / charcoal
+        --muted: soft silver
+        --accent-gold: metallic gold
+        --accent-silver: bright silver
+        --white: pure white
+    */
+
+    :root{
+      --bg: #060607;
+      --panel: #0f1112;
+      --muted: #a8adb3;
+      --accent-gold: #c9a96e;
+      --accent-silver: #cfd6db;
+      --white: #ffffff;
+      --glass: rgba(255,255,255,0.03);
+    }
+
+    /* Base */
+    html,body {
+      height:100%;
+      scroll-behavior: smooth;
+    }
+    body{
+      margin:0;
+      font-family: "Solway", serif;
+      background: linear-gradient(180deg,var(--bg) 0%, #050507 100%);
+      color: var(--muted);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      overflow-x:hidden;
+    }
+
+    /* Headline font */
+    .brand-face {
+      font-family: "Hammersmith One", sans-serif;
+      letter-spacing: .08em;
+      color:var(--white);
+    }
+
+    /* NAVBAR - Compact and centered */
+    .site-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right:0;
+      z-index: 60;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      pointer-events:none;
+      transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+      background: transparent;
+      padding: 16px 0;
+    }
+    .site-nav.scrolled {
+      background: rgba(6, 6, 7, 0.9);
+      backdrop-filter: blur(15px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      padding: 12px 0;
+    }
+    .site-nav .nav-wrap {
+      width:100%;
+      max-width:800px;
+      margin:0 auto;
+      pointer-events:auto;
+      padding: 0 24px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+    .nav-links {
+      display:flex;
+      gap: 12px;
+      align-items:center;
+      border-radius: 999px;
+      padding: 8px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      backdrop-filter: blur(10px);
+    }
+    .nav-links a {
+      color:var(--muted);
+      text-decoration:none;
+      font-weight:600;
+      padding: 12px 24px;
+      border-radius:999px;
+      transition: all .3s ease;
+      position: relative;
+      overflow: hidden;
+      font-size: 1rem;
+      letter-spacing: 0.3px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .nav-links a::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+      transition: left 0.5s ease;
+    }
+    .nav-links a:hover::before {
+      left: 100%;
+    }
+    .nav-links a:hover {
+      color:var(--white);
+      background: rgba(255,255,255,0.03);
+    }
+    .nav-links a.active {
+      color: var(--white);
+      background: rgba(255,255,255,0.05);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    /* Reserve button - Compact stylish button */
+    .btn-reserve {
+      background: linear-gradient(90deg,var(--accent-gold), #b08a4a);
+      color: var(--bg);
+      border-radius: 999px;
+      padding: 12px 24px;
+      font-weight:700;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+      border: none;
+      position:relative;
+      overflow:hidden;
+      transition: all 0.4s ease;
+      font-size: 1rem;
+      letter-spacing: 0.3px;
+      margin-left: 8px;
+    }
+    .btn-reserve::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.6s ease;
+    }
+    .btn-reserve:hover::before {
+      left: 100%;
+    }
+    .btn-reserve:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 35px rgba(184,141,73,0.5);
+    }
+
+    /* HERO - Smaller section just to fit heading */
+    .hero {
+      height: 60vh;
+      min-height: 400px;
+      position:relative;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+      margin-top: 0;
+    }
+
+    /* hero background image */
+    .hero-bg {
+      position:absolute;
+      inset: 0;
+      background-image: url('https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg');
+      background-size: cover;
+      background-position: center;
+      transform: scale(1.06);
+      filter: grayscale(.06) contrast(.95) brightness(.55);
+      will-change: transform;
+      transition: transform 0.8s cubic-bezier(0.215, 0.61, 0.355, 1);
+      z-index:1;
+    }
+
+    /* enhanced vignette */
+    .hero::after{
+      content:"";
+      position:absolute; inset:0;
+      background: radial-gradient(60% 60% at 50% 30%, rgba(0,0,0,0.2), rgba(0,0,0,0.75));
+      z-index:2;
+      pointer-events:none;
+    }
+
+    .hero-inner {
+      position:relative;
+      z-index:3;
+      text-align:center;
+      color:var(--white);
+      max-width:1100px;
+      padding: 3rem 1rem;
+      margin-top: 0;
+    }
+
+    /* One-liner hero title */
+    .hero-title {
+      font-family: "Hammersmith One", sans-serif;
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      line-height: 1;
+      margin:0 auto 30px;
+      color:var(--white);
+      position: relative;
+      opacity: 1;
+      animation: textReveal 1.2s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+    }
+
+    .hero-sub {
+      color: rgba(255,255,255,0.9);
+      max-width:720px;
+      margin: 0 auto 20px;
+      font-size:1.2rem;
+      transform: translateY(18px);
+      opacity:0;
+      transition: all 700ms cubic-bezier(.2,.9,.2,1);
+      line-height: 1.6;
+    }
+
+    .hero-ctas {
+      display:flex;
+      gap:16px;
+      justify-content:center;
+      margin-top:28px;
+      transform: translateY(18px);
+      opacity:0;
+      transition: all 700ms cubic-bezier(.2,.9,.2,1);
+    }
+
+    /* CTA Primary Button - Added for reservation modal */
+    .cta-primary {
+      background: linear-gradient(90deg,var(--accent-gold), #b08a4a);
+      color: var(--bg);
+      padding: 14px 28px;
+      border-radius: 999px;
+      font-weight:800;
+      box-shadow: 0 16px 40px rgba(184,141,73,0.14);
+      border: none;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+      font-size: 0.95rem;
+      letter-spacing: 0.4px;
+    }
+    .cta-primary::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.6s ease;
+    }
+    .cta-primary:hover::before {
+      left: 100%;
+    }
+    .cta-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 20px 50px rgba(184,141,73,0.25);
+    }
+
+    .cta-secondary {
+      background: rgba(255,255,255,0.06);
+      color: var(--white);
+      padding: 14px 28px;
+      border-radius: 999px;
+      font-weight:700;
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+      font-size: 0.95rem;
+      letter-spacing: 0.4px;
+    }
+    .cta-secondary::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+      transition: left 0.6s ease;
+    }
+    .cta-secondary:hover::before {
+      left: 100%;
+    }
+    .cta-secondary:hover {
+      transform: translateY(-3px);
+      background: rgba(255,255,255,0.1);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+    }
+
+    /* Menu Sections */
+    .menu-section {
+      padding: 90px 0;
+      position:relative;
+      z-index:4;
+    }
+    .container-1200{
+      max-width:1200px;
+      margin:0 auto;
+      padding:0 18px;
+    }
+
+    /* Section Headers */
+    .section-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    .section-title {
+      font-family: "Hammersmith One", sans-serif;
+      font-size: 2.2rem;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+    .gold-line {
+      height:3px;
+      width:88px;
+      background: linear-gradient(90deg,var(--accent-gold), var(--accent-silver));
+      margin:12px auto 22px;
+      border-radius:3px;
+      position: relative;
+      overflow: hidden;
+    }
+    .gold-line::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      animation: shimmer 3s infinite;
+    }
+    .section-subtitle {
+      max-width: 700px;
+      margin: 0 auto;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    /* Menu Items Grid */
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+    .menu-item {
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.04);
+      transform: translateY(22px);
+      opacity:0;
+      transition: all 560ms cubic-bezier(.2,.9,.2,1);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+    .menu-item::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+      transform: scaleX(0);
+      transition: transform 0.5s ease;
+    }
+    .menu-item:hover::before {
+      transform: scaleX(1);
+    }
+    .menu-item:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 28px 60px rgba(0,0,0,0.6);
+    }
+    .menu-item-img {
+      height: 240px;
+      background-size:cover;
+      background-position:center;
+      transition: transform 700ms ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .menu-item-img::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 40%;
+      background: linear-gradient(transparent, rgba(0,0,0,0.7));
+    }
+    .menu-item:hover .menu-item-img {
+      transform: scale(1.06) rotate(-0.4deg);
+    }
+    .menu-item-content {
+      padding:18px;
+      position: relative;
+      z-index: 2;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .menu-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 6px;
+    }
+    .menu-item-title {
+      color: var(--white);
+      font-family: "Hammersmith One", sans-serif;
+      font-size:1.4rem;
+      margin-bottom:6px;
+      position: relative;
+      display: inline-block;
+    }
+    .menu-item-title::after {
+      content: "";
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--accent-gold);
+      transition: width 0.5s ease;
+    }
+    .menu-item:hover .menu-item-title::after {
+      width: 100%;
+    }
+    .menu-item-price {
+      color: var(--accent-gold);
+      font-weight: 700;
+      margin-top: 10px;
+      font-size: 1.1rem;
+    }
+    .menu-item-desc {
+      color:var(--muted);
+      font-size: .95rem;
+      flex-grow: 1;
+    }
+    .menu-item-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 15px;
+    }
+    .menu-tag {
+      background: rgba(255,255,255,0.04);
+      color: var(--accent-silver);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      border: 1px solid rgba(255,255,255,0.03);
+    }
+
+    /* Category Navigation */
+    .category-nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 50px;
+    }
+    .category-btn {
+      background: rgba(255,255,255,0.02);
+      color: var(--muted);
+      border: 1px solid rgba(255,255,255,0.04);
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .category-btn::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+      transition: left 0.5s ease;
+    }
+    .category-btn:hover::before {
+      left: 100%;
+    }
+    .category-btn:hover, .category-btn.active {
+      color: var(--white);
+      background: rgba(255,255,255,0.05);
+      border-color: rgba(255,255,255,0.08);
+    }
+
+    /* footer - Same as home page */
+    footer {
+      padding: 60px 0 36px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.12));
+      border-top:1px solid rgba(255,255,255,0.03);
+      margin-top:40px;
+      position: relative;
+    }
+    footer::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+    }
+    .footer-grid {
+      display:grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap:24px;
+      max-width:1200px;
+      margin:0 auto;
+      color:var(--muted);
+    }
+    .footer-section {
+      margin-bottom: 20px;
+    }
+    .social-icons {
+      display: flex;
+      gap: 12px;
+      margin-top: 15px;
+    }
+    .social-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.05);
+      color: var(--accent-silver);
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+    .social-icon:hover {
+      background: var(--accent-gold);
+      color: var(--bg);
+      transform: translateY(-3px);
+    }
+
+    /* Reservation form modal custom - Fixed CSS comment */
+    .modal-content {
+      background: linear-gradient(180deg,var(--panel), #070809);
+      border: 1px solid rgba(255,255,255,0.03);
+      color:var(--accent-silver);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .modal-content::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+    }
+    .modal-header {
+      border-bottom: none;
+      background: linear-gradient(90deg,var(--accent-gold), var(--accent-silver));
+      color:var(--bg);
+      padding: 1.2rem 1.5rem;
+    }
+    .modal .form-control, .modal .form-select, .modal textarea {
+      background: rgba(255,255,255,0.02);
+      border:1px solid rgba(255,255,255,0.04);
+      color:var(--accent-silver);
+      transition: all 0.3s ease;
+    }
+    .modal .form-control:focus, .modal .form-select:focus {
+      box-shadow: 0 8px 30px rgba(201,169,110,0.06);
+      border-color: rgba(201,169,110,0.18);
+      outline:none;
+      background: rgba(255,255,255,0.03);
+    }
+
+    /* small helpers */
+    .muted { color: var(--muted); }
+    .accent-gold { color: var(--accent-gold); }
+    .silver-pill {
+      background: rgba(255,255,255,0.04);
+      padding:6px 10px;
+      border-radius:8px;
+      color:var(--accent-silver);
+      border:1px solid rgba(255,255,255,0.03);
+      transition: all 0.3s ease;
+    }
+    .silver-pill:hover {
+      background: rgba(255,255,255,0.06);
+      transform: translateY(-1px);
+    }
+
+    /* Floating elements for visual interest */
+    .floating-element {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,169,110,0.1) 0%, transparent 70%);
+      filter: blur(40px);
+      z-index: 0;
+      opacity: 0.6;
+    }
+
+    /* Floating elements */
+    .floating-element {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,169,110,0.1) 0%, transparent 70%);
+      filter: blur(40px);
+      z-index: 0;
+      opacity: 0.6;
+    }
+
+    /* Animations */
+    @keyframes textReveal {
+      0% {
+        clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+      }
+      100% {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+      }
+    }
+    @keyframes shimmer {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .reveal {
+      opacity:0;
+      transform: translateY(18px);
+      transition: all 600ms cubic-bezier(.2,.9,.2,1);
+    }
+    .reveal.show {
+      opacity:1;
+      transform: translateY(0);
+    }
+    .page-load-animation {
+      animation: fadeInUp 0.8s ease forwards;
+    }
+
+    /* Responsive */
+    @media (max-width: 992px){
+      .menu-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .nav-links {
+        gap: 8px;
+        padding: 6px;
+      }
+      .nav-links a {
+        padding: 10px 18px;
+        font-size: 0.9rem;
+      }
+      .btn-reserve {
+        padding: 10px 18px;
+        font-size: 0.9rem;
+      }
+    }
+    @media (max-width: 768px){
+      .site-nav .nav-wrap {
+        max-width: 100%;
+      }
+      .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 6px;
+        padding: 8px;
+      }
+      .nav-links a {
+        padding: 10px 16px;
+        font-size: 0.9rem;
+      }
+      .btn-reserve {
+        margin-left: 0;
+        margin-top: 6px;
+        width: 100%;
+      }
+      .hero {
+        height: 50vh;
+        min-height: 400px;
+      }
+      .category-nav {
+        gap: 10px;
+      }
+      .category-btn {
+        padding: 10px 18px;
+        font-size: 0.9rem;
+      }
+    }
+    @media (max-width: 640px){
+      .menu-grid { grid-template-columns: 1fr; }
+      .hero { min-height: 400px; }
+      .site-nav .nav-wrap { padding:0 12px; }
+      .hero-title { font-size: clamp(2rem, 6vw, 3rem); }
+      .footer-grid { grid-template-columns: 1fr; }
+      .hero-ctas { flex-direction: column; }
+      .nav-links {
+        flex-direction: column;
+        width: 100%;
+      }
+      .site-nav {
+        padding: 8px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV - Same as home page -->
+  <div class="site-nav">
+    <div class="nav-wrap">
+      <div class="nav-links">
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'about' %}">About</a>
+        <a href="{% url 'gallery' %}">Gallery</a>
+        <a href="{% url 'contact' %}">Contact</a>
+        <!-- Reserve button integrated into nav -->
+        <button class="btn-reserve" data-bs-toggle="modal" data-bs-target="#reserveModal" aria-label="Reserve a table">
+          <span class="label"><i class="fa fa-utensils me-2" aria-hidden="true"></i>Reserve</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO - Smaller section with different image -->
+  <header class="hero" id="home">
+    <div class="hero-bg" id="heroBg" aria-hidden="true"></div>
+
+    <!-- Floating elements for visual interest -->
+    <div class="floating-element" style="width: 300px; height: 300px; top: 10%; left: 5%;"></div>
+    <div class="floating-element" style="width: 200px; height: 200px; bottom: 20%; right: 10%;"></div>
+
+    <div class="hero-inner">
+      <h2 class="hero-title" id="heroTitle">OUR CULINARY ART</h2>
+      <p class="hero-sub reveal" id="heroSub">Handcrafted beverages, delicate pastries, and gourmet dishes — each creation tells a story of passion and precision.</p>
+    </div>
+  </header>
+
+  <!-- Menu Categories Navigation -->
+  <section class="menu-section">
+    <div class="container-1200">
+      <div class="category-nav">
+        <button class="category-btn active" data-category="all">All Items</button>
+        <button class="category-btn" data-category="coffee">Coffee & Tea</button>
+        <button class="category-btn" data-category="pastries">Pastries</button>
+        <button class="category-btn" data-category="breakfast">Breakfast</button>
+      </div>
+
+      <!-- Coffee & Tea Section -->
+      <div class="menu-category" id="coffee">
+        <div class="section-header">
+          <h2 class="section-title page-load-animation">Coffee & Tea</h2>
+          <div class="gold-line"></div>
+          <p class="section-subtitle page-load-animation">Expertly crafted beverages from single-origin beans and premium tea leaves</p>
+        </div>
+
+        <div class="menu-grid">
+          <!-- Coffee Item 1 -->
+          <div class="menu-item reveal" data-category="coffee">
+            <div class="menu-item-img" style="background-image: url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80')"></div>
+            <div class="menu-item-content">
+              <div class="menu-item-header">
+                <h3 class="menu-item-title">Espresso</h3>
+                <div class="menu-item-price">₹37.50</div>
+              </div>
+              <p class="menu-item-desc">A concentrated shot of our finest single-origin beans, delivering rich flavor and perfect crema.</p>
+              <div class="menu-item-tags">
+                <span class="menu-tag">Strong</span>
+                <span class="menu-tag">Single-Origin</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Coffee Item 2 -->
+          <div class="menu-item reveal" data-category="coffee">
+            <div class="menu-item-img" style="background-image: url('https://images.unsplash.com/photo-1561047029-3000c68339ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80')"></div>
+            <div class="menu-item-content">
+              <div class="menu-item-header">
+                <h3 class="menu-item-title">Cappuccino</h3>
+                <div class="menu-item-price">₹43.50</div>
+              </div>
+              <p class="menu-item-desc">Perfectly balanced espresso with steamed milk and a thick layer of microfoam.</p>
+              <div class="menu-item-tags">
+                <span class="menu-tag">Creamy</span>
+                <span class="menu-tag">Classic</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Coffee Item 3 -->
+          <div class="menu-item reveal" data-category="coffee">
+            <div class="menu-item-img" style="background-image: url('https://images.unsplash.com/photo-1511537190424-bbbab87ac5eb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80')"></div>
+            <div class="menu-item-content">
+              <div class="menu-item-header">
+                <h3 class="menu-item-title">Cold Brew</h3>
+                <div class="menu-item-price">₹49.00</div>
+              </div>
+              <p class="menu-item-desc">Slow-steeped for 18 hours for a smooth, less acidic coffee experience.</p>
+              <div class="menu-item-tags">
+                <span class="menu-tag">Iced</span>
+                <span class="menu-tag">Smooth</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pastries Section -->
+        <br><br>
+      <div class="menu-category" id="pastries">
+        <div class="section-header">
+          <h2 class="section-title page-load-animation">Pastries</h2>
+          <div class="gold-line"></div>
+          <p class="section-subtitle page-load-animation">Freshly baked French-inspired pastries made daily by our master pâtissier</p>
+        </div>
+
+        <div class="menu-grid">
+          <!-- Pastry Item 1 -->
+          <div class="menu-item reveal" data-category="pastries">
+            <div class="menu-item-img" style="background-image: url('https://images.unsplash.com/photo-1623334044303-241021148842?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80')"></div>
+            <div class="menu-item-content">
+              <div class="menu-item-header">
+                <h3 class="menu-item-title">Butter Croissant</h3>
+                <div class="menu-item-price">₹41.50</div>
+              </div>
+              <p class="menu-item-desc">Flaky, buttery layers with a delicate crisp exterior and soft, airy interior.</p>
+              <div class="menu-item-tags">
+                <span class="menu-tag">Buttery</span>
+                <span class="menu-tag">Flaky</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pastry Item 2 -->
+          <div class="menu-item reveal" data-category="pastries">
+            <div class="menu-item-img" style="background-image: url('https://www.foodandwine.com/thmb/HmDXdjgIGGZwq338hSYvmyYoCBk=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/pain-au-chocolat-FT-RECIPE0920-2a11bb8aa5fe42fb8924e0df724f0072.jpg')"></div>
+            <div class="menu-item-content">
+              <div class="menu-item-header">
+                <h3 class="menu-item-title">Pain au Chocolat</h3>
+                <div class="menu-item-price">₹57.50</div>
+              </div>
+              <p class="menu-item-desc">Our signature croissant dough wrapped around two bars of premium dark chocolate.</p>
+              <div class="menu-item-tags">
+                <span class="menu-tag">Chocolate</span>
+                <span class="menu-tag">French</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pastry Item 3 -->
+          <div class="menu-item reveal" data-category="pastries">
+            <div class="menu-item-img" style="background-image: url('https://www.tashasartisanfoods.com/blog/wp-content/uploads/2024/01/Perfect-Soft-Coffee-Cinnamon-Rolls-17-FEATURE.jpeg')"></div>
+            <div class="menu-item-content">
+              <div class="menu-item-header">
+                <h3 class="menu-item-title">Cinnamon Roll</h3>
+                <div class="menu-item-price">₹52.25</div>
+              </div>
+              <p class="menu-item-desc">Soft, fluffy dough swirled with cinnamon sugar and topped with cream cheese icing.</p>
+              <div class="menu-item-tags">
+                <span class="menu-tag">Cinnamon</span>
+                <span class="menu-tag">Sweet</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Breakfast Section -->
+        <br><br>
+      <div class="menu-category" id="breakfast">
+        <div class="section-header">
+          <h2 class="section-title page-load-animation">Breakfast</h2>
+          <div class="gold-line"></div>
+          <p class="section-subtitle page-load-animation">Start your day with our nourishing breakfast selections</p>
+        </div>
+
+        <div class="menu-grid">
+          <!-- Breakfast Item 1 -->
+          <div class="menu-item reveal" data-category="breakfast">
+            <div class="menu-item-img" style="background-image: url('https://images.unsplash.com/photo-1551782450-17144efb9c50?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80')"></div>
+            <div class="menu-item-content">
+              <div class="menu-item-header">
+                <h3 class="menu-item-title">Avocado Toast</h3>
+                <div class="menu-item-price">₹86.50</div>
+              </div>
+              <p class="menu-item-desc">Sourdough toast topped with smashed avocado, cherry tomatoes, and microgreens.</p>
+              <div class="menu-item-tags">
+                <span class="menu-tag">Healthy</span>
+                <span class="menu-tag">Vegetarian</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Breakfast Item 2 -->
+          <div class="menu-item reveal" data-category="breakfast">
+            <div class="menu-item-img" style="background-image: url('https://images.unsplash.com/photo-1551024601-bec78aea704b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80')"></div>
+            <div class="menu-item-content">
+              <div class="menu-item-header">
+                <h3 class="menu-item-title">French Toast</h3>
+                <div class="menu-item-price">₹92.00</div>
+              </div>
+              <p class="menu-item-desc">Brioche bread dipped in vanilla custard, grilled to perfection with maple syrup.</p>
+              <div class="menu-item-tags">
+                <span class="menu-tag">Sweet</span>
+                <span class="menu-tag">Classic</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Breakfast Item 3 -->
+          <div class="menu-item reveal" data-category="breakfast">
+            <div class="menu-item-img" style="background-image: url('https://images.unsplash.com/photo-1551892374-ecf8754cf8b0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80')"></div>
+            <div class="menu-item-content">
+              <div class="menu-item-header">
+                <h3 class="menu-item-title">Breakfast Bowl</h3>
+                <div class="menu-item-price">₹105.50</div>
+              </div>
+              <p class="menu-item-desc">Greek yogurt with granola, fresh berries, honey, and chia seeds.</p>
+              <div class="menu-item-tags">
+                <span class="menu-tag">Healthy</span>
+                <span class="menu-tag">Protein</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER - Same as home page -->
+  <footer id="contact">
+    <div class="footer-grid" style="padding:48px 18px;">
+      <div class="footer-section">
+        <h4 class="brand-face page-load-animation" style="color:var(--white);">L'Artisan Café</h4>
+        <div class="muted page-load-animation" style="margin-top:8px;">Noir collection · Parisian-inspired · Modern craft</div>
+        <div style="margin-top:12px;">
+          <div class="menu-tag page-load-animation" style="display:inline-block; margin-top:12px;">Open daily • 8:00 am — 10:00 pm</div>
+        </div>
+      </div>
+
+      <div class="footer-section">
+        <h5 class="page-load-animation" style="color:var(--accent-gold); margin-bottom:10px;">Contact</h5>
+        <div class="muted page-load-animation">123 Rue de la Paix, Paris</div>
+        <div class="muted page-load-animation">+33 1 42 60 15 08</div>
+        <div class="muted page-load-animation">contact@lartisancafe.fr</div>
+      </div>
+
+      <div class="footer-section">
+        <h5 class="page-load-animation" style="color:var(--accent-gold); margin-bottom:10px;">Follow</h5>
+        <div class="social-icons">
+          <a class="social-icon page-load-animation" href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a class="social-icon page-load-animation" href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a class="social-icon page-load-animation" href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center; padding:18px 0; color:rgba(255,255,255,0.28); font-size:.9rem;">
+      © <span id="yr"></span> L'Artisan Café — Noir. Crafted by Venora Digitech.
+    </div>
+  </footer>
+
+  <!-- RESERVATION MODAL - Fixed with cta-primary class -->
+  <div class="modal fade" id="reserveModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header" style="background: linear-gradient(90deg,var(--accent-gold), var(--accent-silver)); color:var(--bg);">
+          <h5 class="modal-title brand-face">Reserve a Table</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="reserveForm">
+            <div class="row g-2">
+              <div class="col-12 col-md-6">
+                <label class="form-label">Full name</label>
+                <input class="form-control" type="text" id="rname" required>
+              </div>
+              <div class="col-12 col-md-6">
+                <label class="form-label">Email</label>
+                <input class="form-control" type="email" id="remail" required>
+              </div>
+              <div class="col-6 col-md-4">
+                <label class="form-label">No. of Guests</label>
+                <input class="form-control" type="number" id="rguests" required>
+              </div>
+              <div class="col-6 col-md-4">
+                <label class="form-label">Date</label>
+                <input class="form-control" type="date" id="rdate" required>
+              </div>
+              <div class="col-12 col-md-4">
+                <label class="form-label">Time</label>
+                <input class="form-control" type="time" id="rtime" required>
+              </div>
+
+              <div class="col-12">
+                <label class="form-label">Special requests</label>
+                <textarea class="form-control" id="rnotes" rows="3" placeholder="Allergies, celebration notes..."></textarea>
+              </div>
+
+              <div class="col-12" style="margin-top:8px;">
+                <!-- Fixed: Added cta-primary class -->
+                <button class="cta-primary w-100" type="submit">Confirm Reservation</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // Footer year
+    document.getElementById('yr').textContent = new Date().getFullYear();
+
+    // Enhanced parallax: move hero bg on mouse
+    (function heroParallax(){
+      const bg = document.getElementById('heroBg');
+      document.addEventListener('mousemove', (e)=>{
+        const w = window.innerWidth, h = window.innerHeight;
+        const x = (e.clientX - w/2)/w*12;
+        const y = (e.clientY - h/2)/h*10;
+        bg.style.transform = `translate3d(${x}px, ${y}px, 0) scale(1.06)`;
+      });
+    })();
+
+    // IntersectionObserver to reveal elements elegantly
+    (function revealOnScroll() {
+      const items = document.querySelectorAll('.reveal');
+      const obs = new IntersectionObserver((entries)=>{
+        entries.forEach(ent => {
+          if(ent.isIntersecting){
+            ent.target.classList.add('show');
+            obs.unobserve(ent.target);
+          }
+        });
+      }, {threshold: 0.12});
+      items.forEach(i => obs.observe(i));
+    })();
+
+    // Category filtering
+    (function setupCategoryFilter() {
+      const categoryBtns = document.querySelectorAll('.category-btn');
+      const menuItems = document.querySelectorAll('.menu-item');
+
+      categoryBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          // Update active button
+          categoryBtns.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+
+          const category = this.getAttribute('data-category');
+
+          // Filter items
+          menuItems.forEach(item => {
+            if (category === 'all' || item.getAttribute('data-category') === category) {
+              item.style.display = 'flex';
+              // Add animation for appearing items
+              setTimeout(() => {
+                item.style.opacity = '1';
+                item.style.transform = 'translateY(0)';
+              }, 100);
+            } else {
+              item.style.display = 'none';
+            }
+          });
+        });
+      });
+    })();
+
+    // Enhanced scroll effect for navbar
+    window.addEventListener('scroll', ()=>{
+      const nav = document.querySelector('.site-nav');
+      if(!nav) return;
+
+      if(window.scrollY > 60){
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
+    });
+
+    // Ensure hero initial reveal
+    window.addEventListener('load', ()=>{
+      setTimeout(()=> document.getElementById('heroSub').classList.add('show'), 340);
+      setTimeout(()=> document.getElementById('heroCtas').classList.add('show'), 560);
+
+      // Add subtle animation to menu items with staggered delay
+      const menuItems = document.querySelectorAll('.menu-item');
+      menuItems.forEach((item, index) => {
+        setTimeout(() => {
+          item.style.opacity = '1';
+          item.style.transform = 'translateY(0)';
+        }, 200 + (index * 100));
+      });
+    });
+
+    // Add subtle animation to gold line
+    const goldLines = document.querySelectorAll('.gold-line');
+    goldLines.forEach(line => {
+      line.style.animationDelay = `${Math.random() * 2}s`;
+    });
+
+    // Reservation form: basic validation & confirmation toast
+    (function reservationHandler(){
+      const form = document.getElementById('reserveForm');
+      if(!form) return;
+      form.addEventListener('submit', (e)=>{
+        e.preventDefault();
+        // collect data (demo: you would send this to server)
+        const data = {
+          name: document.getElementById('rname').value,
+          email: document.getElementById('remail').value,
+          guests: document.getElementById('rguests').value,
+          date: document.getElementById('rdate').value,
+          time: document.getElementById('rtime').value,
+          notes: document.getElementById('rnotes').value
+        };
+        // close modal
+        const modalEl = document.getElementById('reserveModal');
+        const modal = bootstrap.Modal.getInstance(modalEl);
+        if(modal) modal.hide();
+
+        // show custom toast message
+        const toast = document.createElement('div');
+        toast.innerHTML = '<div style="padding:14px 18px; border-radius:12px; background: linear-gradient(90deg,var(--accent-gold),var(--accent-silver)); color:#070707; font-weight:700; box-shadow:0 12px 40px rgba(0,0,0,0.5);">Reservation received — we\'ll confirm shortly.</div>';
+        Object.assign(toast.style, { position:'fixed', right:'20px', bottom:'24px', zIndex:99999, opacity:0, transition:'all .28s ease' });
+        document.body.appendChild(toast);
+        requestAnimationFrame(()=> toast.style.opacity = 1);
+        setTimeout(()=> { toast.style.opacity = 0; setTimeout(()=> toast.remove(), 420); }, 3800);
+
+        // clear form for demo
+        form.reset();
+      });
+    })();
+  </script>
+</body>
+</html>

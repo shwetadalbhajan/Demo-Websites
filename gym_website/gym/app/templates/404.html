@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Page Not Found | NexusFit</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <!-- AOS CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #00ff9d;
+            --secondary: #ff00c8;
+            --accent: #00e5ff;
+            --dark: #0a0a0a;
+            --darker: #050505;
+            --light: #f8f9fa;
+            --nav-height: 84px; /* used to offset the fixed navbar */
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        /* Make sure fixed nav doesn't cover content */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding-top: var(--nav-height);
+        }
+
+        h1,h2,h3,h4,h5 { font-family: 'Oswald', sans-serif; font-weight: 700; line-height: 1.2; }
+
+        .neon-primary { color: var(--primary); text-shadow: 0 0 10px rgba(0,255,157,0.7); }
+        .neon-secondary { color: var(--secondary); text-shadow: 0 0 10px rgba(255,0,200,0.7); }
+        .neon-accent { color: var(--accent); text-shadow: 0 0 10px rgba(0,229,255,0.7); }
+
+        .btn-neon-primary, .btn-neon-secondary {
+            background-color: transparent;
+            border-radius: 30px;
+            padding: 12px 30px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn-neon-primary {
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 15px rgba(0,255,157,0.5);
+        }
+        .btn-neon-primary::before {
+            content: '';
+            position: absolute; top:0; left:-100%; width:100%; height:100%;
+            background: linear-gradient(90deg, transparent, rgba(0,255,157,0.15), transparent);
+            transition: 0.5s; z-index: -1;
+        }
+        .btn-neon-primary:hover::before { left: 100%; }
+        .btn-neon-primary:hover {
+            background-color: var(--primary);
+            color: var(--dark);
+            box-shadow: 0 0 25px rgba(0,255,157,0.8);
+            transform: translateY(-3px);
+        }
+
+        .btn-neon-secondary {
+            color: var(--secondary);
+            border: 2px solid var(--secondary);
+            box-shadow: 0 0 15px rgba(255,0,200,0.5);
+        }
+        .btn-neon-secondary::before {
+            content: '';
+            position: absolute; top:0; left:-100%; width:100%; height:100%;
+            background: linear-gradient(90deg, transparent, rgba(255,0,200,0.12), transparent);
+            transition: 0.5s; z-index: -1;
+        }
+        .btn-neon-secondary:hover::before { left: 100%; }
+        .btn-neon-secondary:hover {
+            background-color: var(--secondary);
+            color: var(--dark);
+            box-shadow: 0 0 25px rgba(255,0,200,0.8);
+            transform: translateY(-3px);
+        }
+
+        /* Error section centered and not overlapped by fixed nav */
+        .error-section {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            padding: 3rem 0;
+            min-height: calc(100vh - var(--nav-height));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ensure the .container inside fills the section to center content precisely */
+        .error-section > .container {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .error-section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            z-index: 1;
+        }
+
+        .error-content {
+            text-align: center;
+            max-width: 900px;
+            padding: 3rem;
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            gap: 1rem;
+            background: transparent;
+            border-radius: 12px;
+        }
+
+        .error-code {
+            font-size: 10rem;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 0.3rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 20px rgba(0,255,157,0.45);
+            animation: pulse 2s infinite alternate;
+        }
+
+        .error-title {
+            font-size: 2.4rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .error-message {
+            font-size: 1.12rem;
+            margin-bottom: 1.6rem;
+            max-width: 640px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0.95;
+        }
+
+        .error-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .error-icon {
+            font-size: 6.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .footer {
+            background-color: var(--dark);
+            padding: 2.5rem 0 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .social-icons a {
+            display: inline-block;
+            width: 45px; height: 45px;
+            background-color: rgba(255,255,255,0.04);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 45px;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+            color: var(--light);
+        }
+        .social-icons a:hover {
+            background-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,255,157,0.35);
+            color: var(--dark);
+        }
+
+        .navbar {
+            background-color: var(--dark);
+            padding: 1.05rem 0;
+            transition: all 0.25s ease;
+            z-index: 1030; /* above section */
+        }
+
+        .navbar.scrolled {
+            background-color: rgba(5,5,5,0.95);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            padding: 0.6rem 0;
+        }
+
+        .navbar-brand {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 1.6rem;
+            color: var(--primary) !important;
+            text-shadow: 0 0 10px rgba(0,255,157,0.7);
+        }
+
+        .nav-link {
+            color: var(--light) !important;
+            font-weight: 600;
+            margin: 0 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.25s ease;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 0; height: 2px;
+            background: var(--primary);
+            transition: all 0.25s ease;
+        }
+        .nav-link:hover::after { width: 100%; }
+        .nav-link:hover { color: var(--primary) !important; }
+
+        /* Animations */
+        @keyframes pulse {
+            0% { text-shadow: 0 0 20px rgba(0,255,157,0.45); }
+            100% { text-shadow: 0 0 30px rgba(0,255,157,0.75), 0 0 40px rgba(0,255,157,0.55); }
+        }
+        @keyframes float {
+            0%,100% { transform: translateY(0); }
+            50% { transform: translateY(-14px); }
+        }
+
+        /* Decorative broken equipment */
+        .broken-equipment { display:flex; justify-content:center; gap:2rem; margin:2rem 0; flex-wrap:wrap; }
+        .equipment-item { font-size: 3rem; color: var(--primary); animation: shake 5s infinite; position: relative; }
+        .equipment-item:nth-child(2) { animation-delay: 1s; color: var(--secondary); }
+        .equipment-item:nth-child(3) { animation-delay: 2s; color: var(--accent); }
+        @keyframes shake {
+            0%,100%{ transform: rotate(0deg); }
+            10%,30%,50%,70%,90%{ transform: rotate(-5deg); }
+            20%,40%,60%,80%{ transform: rotate(5deg); }
+        }
+
+        /* Glow for neon text */
+        .neon-primary, .neon-secondary, .neon-accent { animation: text-glow 3s ease-in-out infinite alternate; }
+        @keyframes text-glow {
+            from { text-shadow: 0 0 10px currentColor; }
+            to { text-shadow: 0 0 20px currentColor, 0 0 30px currentColor; }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .error-code { font-size: 7.5rem; }
+            .error-title { font-size: 1.9rem; }
+            .error-message { font-size: 1rem; }
+            .error-icon { font-size: 5rem; }
+        }
+
+        @media (max-width: 576px) {
+            .error-code { font-size: 5.8rem; }
+            .error-content { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">NEXUS<span class="neon-accent">FIT</span></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'programs' %}">Programs</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'trainers' %}">Trainers</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'memberships' %}">Memberships</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
+                    <li class="nav-item ms-2">
+                        <a class="btn btn-neon-primary btn-sm" href="{% url 'demo' %}">Join Now</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Error Section -->
+    <section class="error-section" aria-labelledby="error-heading" role="region">
+        <div class="container">
+            <div class="error-content" data-aos="fade-up">
+                <h1 id="error-heading" class="error-code">404</h1>
+                <h2 class="error-title neon-primary">PAGE NOT FOUND</h2>
+                <p class="error-message">Looks like this page took an unexpected rest day. The content you're looking for might have been moved, deleted, or never existed in the first place.</p>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 mb-4" data-aos="fade-up">
+                    <h3 class="neon-primary mb-3">NEXUS<span class="neon-accent">FIT</span></h3>
+                    <p>Premium fitness experience with state-of-the-art facilities and expert trainers to help you achieve your goals.</p>
+                    <div class="social-icons mt-4">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <h4 class="neon-accent mb-3">Contact Info</h4>
+                    <p><i class="fas fa-map-marker-alt me-2 neon-primary" aria-hidden="true"></i> 123 Fitness Street, Gym City</p>
+                    <p><i class="fas fa-phone me-2 neon-primary" aria-hidden="true"></i> (555) 123-4567</p>
+                    <p><i class="fas fa-envelope me-2 neon-primary" aria-hidden="true"></i> info@nexusfit.com</p>
+                    <p><i class="fas fa-clock me-2 neon-primary" aria-hidden="true"></i> Mon-Fri: 5am-11pm, Weekends: 7am-9pm</p>
+                </div>
+            </div>
+
+            <hr class="my-4" style="border-color: rgba(255,255,255,0.06);">
+
+            <div class="text-center">
+                <p>&copy; <span id="year"></span> NexusFit. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <!-- Custom JS -->
+    <script>
+        // set current year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Initialize AOS
+        AOS.init({ duration: 900, once: true, offset: 80 });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
+        });
+
+        // Click effect for equipment items
+        document.addEventListener('DOMContentLoaded', function() {
+            const equipmentItems = document.querySelectorAll('.equipment-item');
+            equipmentItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    this.style.transform = 'scale(1.15)';
+                    setTimeout(() => this.style.transform = '', 250);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexusFit | Memberships</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- AOS CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00ff9d;
+            --secondary: #ff00c8;
+            --accent: #00e5ff;
+            --dark: #0a0a0a;
+            --darker: #050505;
+            --light: #f8f9fa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .neon-primary {
+            color: var(--primary);
+            text-shadow: 0 0 10px rgba(0, 255, 157, 0.7);
+        }
+
+        .neon-secondary {
+            color: var(--secondary);
+            text-shadow: 0 0 10px rgba(255, 0, 200, 0.7);
+        }
+
+        .neon-accent {
+            color: var(--accent);
+            text-shadow: 0 0 10px rgba(0, 229, 255, 0.7);
+        }
+
+        .btn-neon-primary {
+            background-color: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            border-radius: 30px;
+            padding: 12px 30px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(0, 255, 157, 0.5);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn-neon-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 157, 0.2), transparent);
+            transition: 0.5s;
+            z-index: -1;
+        }
+
+        .btn-neon-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-neon-primary:hover {
+            background-color: var(--primary);
+            color: var(--dark);
+            box-shadow: 0 0 25px rgba(0, 255, 157, 0.8);
+            transform: translateY(-3px);
+        }
+
+        .btn-neon-secondary {
+            background-color: transparent;
+            color: var(--secondary);
+            border: 2px solid var(--secondary);
+            border-radius: 30px;
+            padding: 12px 30px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(255, 0, 200, 0.5);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn-neon-secondary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 0, 200, 0.2), transparent);
+            transition: 0.5s;
+            z-index: -1;
+        }
+
+        .btn-neon-secondary:hover::before {
+            left: 100%;
+        }
+
+        .btn-neon-secondary:hover {
+            background-color: var(--secondary);
+            color: var(--dark);
+            box-shadow: 0 0 25px rgba(255, 0, 200, 0.8);
+            transform: translateY(-3px);
+        }
+
+        .page-heading {
+            padding: 160px 0 80px;
+            text-align: center;
+            background-color: var(--dark);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-heading::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+        }
+
+        .section-title {
+            position: relative;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--primary);
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        /* Enhanced Membership Cards */
+        .membership-card {
+            background: linear-gradient(145deg, rgba(20, 20, 20, 0.9), rgba(30, 30, 30, 0.8));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2.5rem 2rem;
+            height: 100%;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 2.5rem;
+            animation: float 6s ease-in-out infinite;
+            backdrop-filter: blur(10px);
+        }
+
+        .membership-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+        }
+
+        .membership-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.03), transparent);
+            transition: 0.5s;
+        }
+
+        .membership-card:hover::after {
+            left: 100%;
+        }
+
+        .membership-card:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+            border-color: var(--primary);
+        }
+
+        .membership-card.popular {
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 40px rgba(0, 255, 157, 0.4);
+            transform: scale(1.05);
+        }
+
+        .membership-card.popular:hover {
+            transform: translateY(-15px) scale(1.08);
+            box-shadow: 0 25px 50px rgba(0, 255, 157, 0.5);
+        }
+
+        /* Fixed Popular Badge */
+        .membership-badge {
+            position: absolute;
+            top: 20px;
+            right: -35px; /* Adjusted position */
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            color: var(--dark);
+            padding: 8px 45px; /* Increased padding */
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.75rem;
+            transform: rotate(45deg);
+            box-shadow: 0 5px 15px rgba(0, 255, 157, 0.5);
+            z-index: 2;
+        }
+
+        .membership-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            transition: all 0.3s ease;
+            text-shadow: 0 0 15px currentColor;
+        }
+
+        .membership-card:hover .membership-icon {
+            transform: scale(1.2) rotate(5deg);
+            color: var(--accent);
+        }
+
+        .membership-price {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin: 1.5rem 0 0.5rem;
+            text-shadow: 0 0 10px rgba(0, 255, 157, 0.5);
+        }
+
+        .membership-period {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+
+        .membership-features {
+            list-style: none;
+            padding: 0;
+            margin: 2rem 0;
+        }
+
+        .membership-features li {
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .membership-features li:hover {
+            background: rgba(255, 255, 255, 0.03);
+            padding-left: 10px;
+        }
+
+        .membership-features li:last-child {
+            border-bottom: none;
+        }
+
+        .membership-features li i {
+            color: var(--primary);
+            margin-right: 15px;
+            font-size: 1.2rem;
+            width: 25px;
+            text-align: center;
+        }
+
+        .membership-features li.disabled {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .membership-features li.disabled i {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* Enhanced Comparison Table */
+        .comparison-section {
+            background: var(--dark);
+            padding: 6rem 0;
+            position: relative;
+        }
+
+        .comparison-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+        }
+
+        .comparison-table {
+            background: rgba(20, 20, 20, 0.8);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .comparison-header {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: var(--dark);
+            padding: 1.5rem;
+            text-align: center;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 1.1rem;
+        }
+
+        .comparison-row {
+            display: flex;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .comparison-row:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateX(5px);
+        }
+
+        .comparison-row:last-child {
+            border-bottom: none;
+        }
+
+        .comparison-feature {
+            flex: 1;
+            padding: 1.2rem;
+            background: rgba(255, 255, 255, 0.05);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            font-size: 0.95rem;
+        }
+
+        .comparison-value {
+            flex: 1;
+            padding: 1.2rem;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .comparison-value i {
+            font-size: 1.3rem;
+        }
+
+        .fa-check {
+            color: var(--primary);
+            text-shadow: 0 0 10px rgba(0, 255, 157, 0.5);
+        }
+
+        .fa-times {
+            color: var(--secondary);
+            text-shadow: 0 0 10px rgba(255, 0, 200, 0.5);
+        }
+
+        /* Enhanced FAQ Section */
+        .faq-section {
+            background: var(--dark);
+            padding: 6rem 0;
+            position: relative;
+        }
+
+        .faq-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, var(--secondary), var(--accent));
+        }
+
+        .faq-item {
+            background: linear-gradient(145deg, rgba(20, 20, 20, 0.8), rgba(30, 30, 30, 0.9));
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .faq-item:hover {
+            border-color: var(--primary);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            transform: translateY(-3px);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .faq-question:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            line-height: 1.7;
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 1.5rem;
+            max-height: 500px;
+        }
+
+        .faq-item.active .fa-question {
+            transform: rotate(180deg);
+            color: var(--primary);
+        }
+
+        .fa-question {
+            color: var(--primary);
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .footer {
+            background-color: var(--dark);
+            padding: 3rem 0 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .social-icons a {
+            display: inline-block;
+            width: 45px;
+            height: 45px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 45px;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            background-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 255, 157, 0.4);
+        }
+
+        .navbar {
+            background-color: var(--dark);
+            padding: 1.2rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            background-color: rgba(5, 5, 5, 0.95);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            padding: 0.8rem 0;
+        }
+
+        .navbar-brand {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 2rem;
+            color: var(--primary) !important;
+            text-shadow: 0 0 10px rgba(0, 255, 157, 0.7);
+        }
+
+        .nav-link {
+            color: var(--light) !important;
+            font-weight: 600;
+            margin: 0 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link:hover {
+            color: var(--primary) !important;
+        }
+
+        /* Animation for membership cards */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-card {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        /* Floating animation for cards */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Stagger the floating animation */
+        .membership-item:nth-child(1) .membership-card { animation-delay: 0s; }
+        .membership-item:nth-child(2) .membership-card { animation-delay: 1s; }
+        .membership-item:nth-child(3) .membership-card { animation-delay: 2s; }
+
+        /* Floating shapes */
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .shape {
+            position: absolute;
+            opacity: 0.15;
+            animation: float 20s infinite linear, glow 8s infinite alternate;
+            filter: blur(1px);
+        }
+
+        .shape-1 {
+            width: 120px;
+            height: 120px;
+            background: var(--primary);
+            border-radius: 50%;
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+
+        .shape-2 {
+            width: 180px;
+            height: 180px;
+            background: var(--secondary);
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            top: 60%;
+            left: 80%;
+            animation-delay: 2s;
+        }
+
+        .shape-3 {
+            width: 100px;
+            height: 100px;
+            background: var(--accent);
+            border-radius: 50%;
+            top: 80%;
+            left: 10%;
+            animation-delay: 4s;
+        }
+
+        .shape-4 {
+            width: 140px;
+            height: 140px;
+            background: var(--primary);
+            border-radius: 40% 60% 60% 40% / 40% 40% 60% 60%;
+            top: 20%;
+            left: 70%;
+            animation-delay: 6s;
+        }
+
+        .shape-5 {
+            width: 110px;
+            height: 110px;
+            background: var(--secondary);
+            border-radius: 50%;
+            top: 40%;
+            left: 85%;
+            animation-delay: 8s;
+        }
+
+        .shape-6 {
+            width: 130px;
+            height: 130px;
+            background: var(--accent);
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            top: 70%;
+            left: 20%;
+            animation-delay: 10s;
+        }
+
+        @keyframes glow {
+            0% {
+                opacity: 0.1;
+            }
+            100% {
+                opacity: 0.2;
+            }
+        }
+
+        /* Text glow animation */
+        .neon-primary, .neon-secondary, .neon-accent {
+            animation: text-glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes text-glow {
+            from {
+                text-shadow: 0 0 10px currentColor;
+            }
+            to {
+                text-shadow: 0 0 20px currentColor, 0 0 30px currentColor;
+            }
+        }
+
+        /* Improved responsive spacing */
+        @media (max-width: 768px) {
+            .page-heading {
+                padding: 140px 0 60px;
+            }
+
+            .membership-card {
+                margin-bottom: 2rem;
+            }
+
+            .membership-card.popular {
+                transform: scale(1);
+            }
+
+            .membership-card.popular:hover {
+                transform: translateY(-15px) scale(1.03);
+            }
+
+            .comparison-row {
+                flex-direction: column;
+            }
+
+            .comparison-feature {
+                justify-content: center;
+                text-align: center;
+            }
+
+            .membership-badge {
+                right: -30px;
+                padding: 6px 35px;
+                font-size: 0.7rem;
+            }
+        }
+
+        /* Additional UI Enhancements */
+        .membership-savings {
+            background: linear-gradient(45deg, var(--secondary), var(--accent));
+            color: var(--dark);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin-left: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .feature-highlight {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-highlight::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 157, 0.1), transparent);
+            transition: 0.5s;
+        }
+
+        .feature-highlight:hover::before {
+            left: 100%;
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Shapes Background -->
+    <div class="floating-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div class="shape shape-4"></div>
+        <div class="shape shape-5"></div>
+        <div class="shape shape-6"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">NEXUS<span class="neon-accent">FIT</span></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'programs' %}">Programs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'trainers' %}">Trainers</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+                    </li>
+                    <li class="nav-item ms-2">
+                        <a class="btn btn-neon-primary btn-sm" href="{% url 'demo' %}">Join Now</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Heading -->
+    <section class="page-heading">
+        <div class="container">
+            <h1 class="display-3 fw-bold">MEMBERSHIP <span class="neon-primary">PLANS</span></h1>
+            <p class="lead mt-3">Choose the perfect plan to start your fitness journey with premium facilities and expert guidance</p>
+        </div>
+    </section>
+
+    <!-- Membership Plans -->
+    <section class="py-5" style="background-color: var(--dark);">
+        <div class="container py-5">
+            <h2 class="section-title neon-primary" data-aos="fade-up">CHOOSE YOUR PLAN</h2>
+
+            <div class="row">
+                <!-- Basic Plan -->
+                <div class="col-lg-4 membership-item" data-aos="fade-up" data-aos-delay="100">
+                    <div class="membership-card text-center animate-card">
+                        <div class="membership-icon">
+                            <i class="fas fa-dumbbell"></i>
+                        </div>
+                        <h3 class="neon-accent">BASIC</h3>
+                        <p>Perfect for beginners starting their fitness journey</p>
+
+                        <div class="membership-price">$49<span class="membership-period">/month</span></div>
+
+                        <ul class="membership-features">
+                            <li class="feature-highlight"><i class="fas fa-check"></i> Gym Access</li>
+                            <li class="feature-highlight"><i class="fas fa-check"></i> Basic Equipment</li>
+                            <li class="feature-highlight"><i class="fas fa-check"></i> Locker Room</li>
+                            <li class="disabled"><i class="fas fa-times"></i> Group Classes</li>
+                            <li class="disabled"><i class="fas fa-times"></i> Personal Training</li>
+                            <li class="disabled"><i class="fas fa-times"></i> Nutrition Planning</li>
+                        </ul>
+
+                        <button class="btn btn-neon-primary">Get Started</button>
+                    </div>
+                </div>
+
+                <!-- Pro Plan (Popular) -->
+                <div class="col-lg-4 membership-item" data-aos="fade-up" data-aos-delay="200">
+                    <div class="membership-card text-center animate-card popular">
+                        <div class="membership-badge">POPULAR</div>
+                        <div class="membership-icon">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <h3 class="neon-accent">PRO</h3>
+                        <p>Our most popular plan with premium features</p>
+
+                        <div class="membership-price">$79<span class="membership-period">/month</span></div>
+
+                        <ul class="membership-features">
+                            <li class="feature-highlight"><i class="fas fa-check"></i> Gym Access</li>
+                            <li class="feature-highlight"><i class="fas fa-check"></i> All Equipment</li>
+                            <li class="feature-highlight"><i class="fas fa-check"></i> Premium Locker Room</li>
+                            <li class="feature-highlight"><i class="fas fa-check"></i> Unlimited Group Classes</li>
+                            <li class="feature-highlight"><i class="fas fa-check"></i> 2 Personal Training Sessions</li>
+                            <li class="disabled"><i class="fas fa-times"></i> Nutrition Planning</li>
+                        </ul>
+
+                        <button class="btn btn-neon-primary">Get Started</button>
+                    </div>
+                </div>
+
+                <!-- Elite Plan -->
+                <div class="col-lg-4 membership-item" data-aos="fade-up" data-aos-delay="300">
+                    <div class="membership-card text-center animate-card">
+                        <div class="membership-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h3 class="neon-accent">ELITE</h3>
+                        <p>Ultimate experience with all premium features</p>
+
+                        <div class="membership-price">$129<span class="membership-period">/month</span></div>
+
+                        <ul class="membership-features">
+                            <li class="feature-highlight"><i class="fas fa-check"></i> 24/7 Gym Access</li>
+                            <li class="feature-highlight"><i class="fas fa-check"></i> All Premium Equipment</li>
+                            <li class="feature-highlight"><i class="fas fa-check"></i> VIP Locker Room</li>
+                            <li class="feature-highlight"><i class="fas fa-check"></i> Unlimited Group Classes</li>
+                            <li class="feature-highlight"><i class="fas fa-check"></i> 8 Personal Training Sessions</li>
+                            <li class="feature-highlight"><i class="fas fa-check"></i> Custom Nutrition Planning</li>
+                        </ul>
+
+                        <button class="btn btn-neon-primary">Get Started</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison Table -->
+    <section class="comparison-section">
+        <div class="container">
+            <h2 class="section-title neon-secondary" data-aos="fade-up">PLAN COMPARISON</h2>
+
+            <div class="comparison-table" data-aos="fade-up">
+                <div class="comparison-header">Feature Comparison</div>
+
+                <div class="comparison-row">
+                    <div class="comparison-feature">Gym Access</div>
+                    <div class="comparison-value"><i class="fas fa-check"></i></div>
+                    <div class="comparison-value"><i class="fas fa-check"></i></div>
+                    <div class="comparison-value"><i class="fas fa-check"></i></div>
+                </div>
+
+                <div class="comparison-row">
+                    <div class="comparison-feature">24/7 Access</div>
+                    <div class="comparison-value"><i class="fas fa-times"></i></div>
+                    <div class="comparison-value"><i class="fas fa-times"></i></div>
+                    <div class="comparison-value"><i class="fas fa-check"></i></div>
+                </div>
+
+                <div class="comparison-row">
+                    <div class="comparison-feature">Group Classes</div>
+                    <div class="comparison-value"><i class="fas fa-times"></i></div>
+                    <div class="comparison-value"><i class="fas fa-check"></i></div>
+                    <div class="comparison-value"><i class="fas fa-check"></i></div>
+                </div>
+
+                <div class="comparison-row">
+                    <div class="comparison-feature">Personal Training</div>
+                    <div class="comparison-value"><i class="fas fa-times"></i></div>
+                    <div class="comparison-value">2 Sessions</div>
+                    <div class="comparison-value">8 Sessions</div>
+                </div>
+
+                <div class="comparison-row">
+                    <div class="comparison-feature">Nutrition Planning</div>
+                    <div class="comparison-value"><i class="fas fa-times"></i></div>
+                    <div class="comparison-value"><i class="fas fa-times"></i></div>
+                    <div class="comparison-value"><i class="fas fa-check"></i></div>
+                </div>
+
+                <div class="comparison-row">
+                    <div class="comparison-feature">Locker Room</div>
+                    <div class="comparison-value">Basic</div>
+                    <div class="comparison-value">Premium</div>
+                    <div class="comparison-value">VIP</div>
+                </div>
+
+                <div class="comparison-row">
+                    <div class="comparison-feature">Price</div>
+                    <div class="comparison-value">$49/month</div>
+                    <div class="comparison-value">$79/month</div>
+                    <div class="comparison-value">$129/month</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="container">
+            <h2 class="section-title neon-accent" data-aos="fade-up">FREQUENTLY ASKED QUESTIONS</h2>
+
+            <div class="faq-container">
+                <div class="faq-item" data-aos="fade-up" data-aos-delay="100">
+                    <div class="faq-question">
+                        <span>What's included in the membership fee?</span>
+                        <i class="fas fa-chevron-down fa-question"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>All memberships include access to our state-of-the-art equipment, locker rooms, and basic amenities. Higher-tier plans include additional benefits like group classes, personal training sessions, and nutrition planning.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-aos="fade-up" data-aos-delay="200">
+                    <div class="faq-question">
+                        <span>Can I upgrade or downgrade my plan?</span>
+                        <i class="fas fa-chevron-down fa-question"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes! You can upgrade or downgrade your membership plan at any time. Changes will be reflected in your next billing cycle. Contact our membership team for assistance with plan changes.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-aos="fade-up" data-aos-delay="300">
+                    <div class="faq-question">
+                        <span>Is there a cancellation fee?</span>
+                        <i class="fas fa-chevron-down fa-question"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We offer flexible cancellation with no fees. You can cancel your membership at any time, and it will remain active until the end of your current billing period.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-aos="fade-up" data-aos-delay="400">
+                    <div class="faq-question">
+                        <span>Do you offer student or corporate discounts?</span>
+                        <i class="fas fa-chevron-down fa-question"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, we offer 15% discounts for students with valid ID and corporate partnerships. Contact our membership team to learn more about eligibility and verification requirements.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-aos="fade-up" data-aos-delay="500">
+                    <div class="faq-question">
+                        <span>Can I freeze my membership?</span>
+                        <i class="fas fa-chevron-down fa-question"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, you can freeze your membership for up to 3 months per year for medical reasons or extended travel. A small monthly maintenance fee applies during the freeze period.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 mb-4" data-aos="fade-up">
+                    <h3 class="neon-primary mb-3">NEXUS<span class="neon-accent">FIT</span></h3>
+                    <p>Premium fitness experience with state-of-the-art facilities and expert trainers to help you achieve your goals.</p>
+                    <div class="social-icons mt-4">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <h4 class="neon-accent mb-3">Contact Info</h4>
+                    <p><i class="fas fa-map-marker-alt me-2 neon-primary"></i> 123 Fitness Street, Gym City</p>
+                    <p><i class="fas fa-phone me-2 neon-primary"></i> (555) 123-4567</p>
+                    <p><i class="fas fa-envelope me-2 neon-primary"></i> info@nexusfit.com</p>
+                    <p><i class="fas fa-clock me-2 neon-primary"></i> Mon-Fri: 5am-11pm, Weekends: 7am-9pm</p>
+                </div>
+            </div>
+            <hr class="my-4" style="border-color: rgba(255,255,255,0.1);">
+            <div class="text-center">
+                <p>&copy; 2023 NexusFit. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <!-- Custom JS -->
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 100
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // FAQ Accordion functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const faqItems = document.querySelectorAll('.faq-item');
+
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+
+                question.addEventListener('click', function() {
+                    // Close all other items
+                    faqItems.forEach(otherItem => {
+                        if (otherItem !== item) {
+                            otherItem.classList.remove('active');
+                        }
+                    });
+
+                    // Toggle current item
+                    item.classList.toggle('active');
+                });
+            });
+
+            // Enhanced scroll animations
+            const elements = document.querySelectorAll('.membership-card, .comparison-table, .faq-item');
+            elements.forEach(element => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(30px)';
+                element.style.transition = 'all 0.6s ease';
+            });
+
+            window.addEventListener('scroll', function() {
+                elements.forEach(element => {
+                    const position = element.getBoundingClientRect();
+                    if (position.top < window.innerHeight * 0.8) {
+                        element.style.opacity = '1';
+                        element.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+
+            // Trigger initial animation
+            setTimeout(() => {
+                window.dispatchEvent(new Event('scroll'));
+            }, 100);
+        });
+    </script>
+</body>
+</html>

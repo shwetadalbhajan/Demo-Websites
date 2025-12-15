@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexusFit | Fitness Programs</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- AOS CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00ff9d;
+            --secondary: #ff00c8;
+            --accent: #00e5ff;
+            --dark: #0a0a0a;
+            --darker: #050505;
+            --light: #f8f9fa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .neon-primary {
+            color: var(--primary);
+            text-shadow: 0 0 10px rgba(0, 255, 157, 0.7);
+        }
+
+        .neon-secondary {
+            color: var(--secondary);
+            text-shadow: 0 0 10px rgba(255, 0, 200, 0.7);
+        }
+
+        .neon-accent {
+            color: var(--accent);
+            text-shadow: 0 0 10px rgba(0, 229, 255, 0.7);
+        }
+
+        .btn-neon-primary {
+            background-color: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            border-radius: 0;
+            padding: 12px 30px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(0, 255, 157, 0.5);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn-neon-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 157, 0.2), transparent);
+            transition: 0.5s;
+            z-index: -1;
+        }
+
+        .btn-neon-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-neon-primary:hover {
+            background-color: var(--primary);
+            color: var(--dark);
+            box-shadow: 0 0 20px rgba(0, 255, 157, 0.8);
+            transform: translateY(-3px);
+        }
+
+        .btn-neon-secondary {
+            background-color: transparent;
+            color: var(--secondary);
+            border: 2px solid var(--secondary);
+            border-radius: 0;
+            padding: 12px 30px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(255, 0, 200, 0.5);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn-neon-secondary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 0, 200, 0.2), transparent);
+            transition: 0.5s;
+            z-index: -1;
+        }
+
+        .btn-neon-secondary:hover::before {
+            left: 100%;
+        }
+
+        .btn-neon-secondary:hover {
+            background-color: var(--secondary);
+            color: var(--dark);
+            box-shadow: 0 0 20px rgba(255, 0, 200, 0.8);
+            transform: translateY(-3px);
+        }
+
+        .page-heading {
+            padding: 160px 0 80px; /* Increased top padding for more space below header */
+            text-align: center;
+            background-color: var(--dark);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-heading::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+        }
+
+        .section-title {
+            position: relative;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--primary);
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        /* Program Cards */
+        .program-card {
+            background-color: rgba(20, 20, 20, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 2.5rem 2rem;
+            height: 100%;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 2.5rem;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .program-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+        }
+
+        .program-card:hover {
+            transform: translateY(-20px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7);
+            border-color: var(--primary);
+        }
+
+        .program-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            transition: all 0.3s ease;
+            animation: pulse-glow 3s infinite;
+        }
+
+        .program-card:hover .program-icon {
+            transform: scale(1.1);
+            color: var(--accent);
+        }
+
+        .program-level {
+            display: inline-block;
+            padding: 5px 15px;
+            background: var(--darker);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        .program-level.beginner {
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .program-level.intermediate {
+            color: var(--accent);
+            border: 1px solid var(--accent);
+        }
+
+        .program-level.advanced {
+            color: var(--secondary);
+            border: 1px solid var(--secondary);
+        }
+
+        .program-features {
+            list-style: none;
+            padding: 0;
+            margin: 1.5rem 0;
+        }
+
+        .program-features li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+        }
+
+        .program-features li:last-child {
+            border-bottom: none;
+        }
+
+        .program-features li i {
+            color: var(--primary);
+            margin-right: 10px;
+        }
+
+        .program-price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 1rem 0;
+        }
+
+        .program-duration {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Filter Buttons */
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .filter-btn {
+            background: transparent;
+            color: var(--light);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 10px 25px;
+            border-radius: 30px;
+            transition: all 0.4s ease;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .filter-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: 0.5s;
+        }
+
+        .filter-btn:hover::before {
+            left: 100%;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--primary);
+            color: var(--dark);
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(0, 255, 157, 0.5);
+        }
+
+        .filter-btn.active {
+            animation: active-glow 2s infinite;
+        }
+
+        /* Schedule Section */
+        .schedule-section {
+            background: var(--dark);
+            padding: 6rem 0;
+            position: relative;
+        }
+
+        .schedule-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+        }
+
+        .schedule-table {
+            background: rgba(20, 20, 20, 0.8);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .schedule-table:hover {
+            transform: translateY(-5px);
+        }
+
+        .schedule-header {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: var(--dark);
+            padding: 1rem;
+            text-align: center;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .schedule-row {
+            display: flex;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .schedule-row:hover {
+            background: rgba(255, 255, 255, 0.03);
+            transform: translateX(10px);
+        }
+
+        .schedule-row:last-child {
+            border-bottom: none;
+        }
+
+        .schedule-time {
+            flex: 0 0 20%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .schedule-classes {
+            flex: 1;
+            padding: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .schedule-class {
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .schedule-class.strength-training {
+            background: rgba(0, 255, 157, 0.2);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .schedule-class.cardio-blast {
+            background: rgba(255, 0, 200, 0.2);
+            color: var(--secondary);
+            border: 1px solid var(--secondary);
+        }
+
+        .schedule-class.yoga-mindfulness {
+            background: rgba(0, 229, 255, 0.2);
+            color: var(--accent);
+            border: 1px solid var(--accent);
+        }
+
+        .schedule-class.hiit-revolution {
+            background: rgba(255, 165, 0, 0.2);
+            color: orange;
+            border: 1px solid orange;
+        }
+
+        .schedule-class.personal-training {
+            background: rgba(147, 112, 219, 0.2);
+            color: mediumpurple;
+            border: 1px solid mediumpurple;
+        }
+
+        .schedule-class.group-fitness {
+            background: rgba(50, 205, 50, 0.2);
+            color: limegreen;
+            border: 1px solid limegreen;
+        }
+
+        .footer {
+            background-color: var(--dark);
+            padding: 3rem 0 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .social-icons a {
+            display: inline-block;
+            width: 45px;
+            height: 45px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 45px;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            background-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 255, 157, 0.4);
+        }
+
+        .navbar {
+            background-color: var(--dark);
+            padding: 1.2rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            background-color: rgba(5, 5, 5, 0.95);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            padding: 0.8rem 0;
+        }
+
+        .navbar-brand {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 2rem;
+            color: var(--primary) !important;
+            text-shadow: 0 0 10px rgba(0, 255, 157, 0.7);
+        }
+
+        .nav-link {
+            color: var(--light) !important;
+            font-weight: 600;
+            margin: 0 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link:hover {
+            color: var(--primary) !important;
+        }
+
+        /* Animation for program cards */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-card {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        /* Floating animation for cards */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Stagger the floating animation */
+        .program-item:nth-child(1) .program-card { animation-delay: 0s; }
+        .program-item:nth-child(2) .program-card { animation-delay: 1s; }
+        .program-item:nth-child(3) .program-card { animation-delay: 2s; }
+        .program-item:nth-child(4) .program-card { animation-delay: 3s; }
+        .program-item:nth-child(5) .program-card { animation-delay: 4s; }
+        .program-item:nth-child(6) .program-card { animation-delay: 5s; }
+
+        /* Pulse animation for program icons */
+        @keyframes pulse-glow {
+            0% {
+                box-shadow: 0 0 5px var(--primary);
+            }
+            50% {
+                box-shadow: 0 0 20px var(--primary), 0 0 30px var(--primary);
+            }
+            100% {
+                box-shadow: 0 0 5px var(--primary);
+            }
+        }
+
+        /* Glow effect for active filter */
+        @keyframes active-glow {
+            0%, 100% {
+                box-shadow: 0 0 15px rgba(0, 255, 157, 0.5);
+            }
+            50% {
+                box-shadow: 0 0 25px rgba(0, 255, 157, 0.8), 0 0 35px rgba(0, 255, 157, 0.4);
+            }
+        }
+
+        /* Floating shapes - FIXED VISIBILITY */
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .shape {
+            position: absolute;
+            opacity: 0.15; /* Increased opacity for better visibility */
+            animation: float 20s infinite linear, glow 8s infinite alternate;
+            filter: blur(1px); /* Reduced blur for better visibility */
+        }
+
+        .shape-1 {
+            width: 120px;
+            height: 120px;
+            background: var(--primary);
+            border-radius: 50%;
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+
+        .shape-2 {
+            width: 180px;
+            height: 180px;
+            background: var(--secondary);
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            top: 60%;
+            left: 80%;
+            animation-delay: 2s;
+        }
+
+        .shape-3 {
+            width: 100px;
+            height: 100px;
+            background: var(--accent);
+            border-radius: 50%;
+            top: 80%;
+            left: 10%;
+            animation-delay: 4s;
+        }
+
+        .shape-4 {
+            width: 140px;
+            height: 140px;
+            background: var(--primary);
+            border-radius: 40% 60% 60% 40% / 40% 40% 60% 60%;
+            top: 20%;
+            left: 70%;
+            animation-delay: 6s;
+        }
+
+        .shape-5 {
+            width: 110px;
+            height: 110px;
+            background: var(--secondary);
+            border-radius: 50%;
+            top: 40%;
+            left: 85%;
+            animation-delay: 8s;
+        }
+
+        .shape-6 {
+            width: 130px;
+            height: 130px;
+            background: var(--accent);
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            top: 70%;
+            left: 20%;
+            animation-delay: 10s;
+        }
+
+        @keyframes glow {
+            0% {
+                opacity: 0.1;
+            }
+            100% {
+                opacity: 0.2; /* Increased max opacity */
+            }
+        }
+
+        /* Text glow animation */
+        .neon-primary, .neon-secondary, .neon-accent {
+            animation: text-glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes text-glow {
+            from {
+                text-shadow: 0 0 10px currentColor;
+            }
+            to {
+                text-shadow: 0 0 20px currentColor, 0 0 30px currentColor;
+            }
+        }
+
+        /* Improved responsive spacing */
+        @media (max-width: 768px) {
+            .page-heading {
+                padding: 140px 0 60px;
+            }
+
+            .program-card {
+                margin-bottom: 2rem;
+            }
+
+            .schedule-row {
+                flex-direction: column;
+            }
+
+            .schedule-time {
+                flex: none;
+                justify-content: flex-start;
+            }
+        }
+
+        /* Additional spacing between program card rows */
+        .programs-container .row {
+            margin-bottom: 2rem;
+        }
+
+        .programs-container .row:last-child {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Shapes Background -->
+    <div class="floating-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div class="shape shape-4"></div>
+        <div class="shape shape-5"></div>
+        <div class="shape shape-6"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">NEXUS<span class="neon-accent">FIT</span></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'trainers' %}">Trainers</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'memberships' %}">Memberships</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+                    </li>
+                    <li class="nav-item ms-2">
+                        <a class="btn btn-neon-primary btn-sm" href="{% url 'demo' %}">Join Now</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Heading -->
+    <section class="page-heading">
+        <div class="container">
+            <h1 class="display-3 fw-bold">OUR <span class="neon-primary">PROGRAMS</span></h1>
+            <p class="lead mt-3">Discover the perfect fitness program tailored to your goals and experience level</p>
+        </div>
+    </section>
+
+    <!-- Programs Filter -->
+    <section class="py-5" style="background-color: var(--dark);">
+        <div class="container py-4">
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">All Programs</button>
+                <button class="filter-btn" data-filter="strength">Strength Training</button>
+                <button class="filter-btn" data-filter="cardio">Cardio</button>
+                <button class="filter-btn" data-filter="yoga">Yoga & Flexibility</button>
+                <button class="filter-btn" data-filter="hiit">HIIT</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Programs Section -->
+    <section class="py-5 programs-section" style="background-color: var(--dark);">
+        <div class="container py-5">
+            <h2 class="section-title neon-primary" data-aos="fade-up">FITNESS PROGRAMS</h2>
+
+            <div class="programs-container" id="programs-container">
+                <!-- First Row -->
+                <div class="row mb-5"> <!-- Added mb-5 for spacing between rows -->
+                    <!-- Strength Training Program -->
+                    <div class="col-lg-4 col-md-6 program-item strength" data-aos="fade-up" data-aos-delay="100">
+                        <div class="program-card text-center animate-card">
+                            <div class="program-icon">
+                                <i class="fas fa-dumbbell"></i>
+                            </div>
+                            <span class="program-level advanced">Advanced</span>
+                            <h3 class="neon-accent">Strength Training</h3>
+                            <p>Build muscle and increase strength with our comprehensive weight training program.</p>
+
+                            <ul class="program-features">
+                                <li><i class="fas fa-check"></i> Personalized workout plans</li>
+                                <li><i class="fas fa-check"></i> Progressive overload techniques</li>
+                                <li><i class="fas fa-check"></i> Form correction and guidance</li>
+                                <li><i class="fas fa-check"></i> Nutrition recommendations</li>
+                            </ul>
+
+                            <div class="program-price">$89<span>/month</span></div>
+                            <div class="program-duration">12-week program</div>
+                            <button class="btn btn-neon-primary">Enroll Now</button>
+                        </div>
+                    </div>
+
+                    <!-- Cardio Program -->
+                    <div class="col-lg-4 col-md-6 program-item cardio" data-aos="fade-up" data-aos-delay="200">
+                        <div class="program-card text-center animate-card">
+                            <div class="program-icon">
+                                <i class="fas fa-running"></i>
+                            </div>
+                            <span class="program-level beginner">Beginner</span>
+                            <h3 class="neon-accent">Cardio Blast</h3>
+                            <p>Improve cardiovascular health and burn calories with our dynamic cardio workouts.</p>
+
+                            <ul class="program-features">
+                                <li><i class="fas fa-check"></i> HIIT and steady-state cardio</li>
+                                <li><i class="fas fa-check"></i> Heart rate monitoring</li>
+                                <li><i class="fas fa-check"></i> Variety of equipment</li>
+                                <li><i class="fas fa-check"></i> Progress tracking</li>
+                            </ul>
+
+                            <div class="program-price">$69<span>/month</span></div>
+                            <div class="program-duration">8-week program</div>
+                            <button class="btn btn-neon-primary">Enroll Now</button>
+                        </div>
+                    </div>
+
+                    <!-- Yoga Program -->
+                    <div class="col-lg-4 col-md-6 program-item yoga" data-aos="fade-up" data-aos-delay="300">
+                        <div class="program-card text-center animate-card">
+                            <div class="program-icon">
+                                <i class="fas fa-spa"></i>
+                            </div>
+                            <span class="program-level beginner">All Levels</span>
+                            <h3 class="neon-accent">Yoga & Mindfulness</h3>
+                            <p>Increase flexibility, reduce stress, and improve mind-body connection.</p>
+
+                            <ul class="program-features">
+                                <li><i class="fas fa-check"></i> Various yoga styles</li>
+                                <li><i class="fas fa-check"></i> Meditation techniques</li>
+                                <li><i class="fas fa-check"></i> Breathing exercises</li>
+                                <li><i class="fas fa-check"></i> Progressive poses</li>
+                            </ul>
+
+                            <div class="program-price">$79<span>/month</span></div>
+                            <div class="program-duration">Ongoing classes</div>
+                            <button class="btn btn-neon-primary">Enroll Now</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Second Row -->
+                <div class="row"> <!-- No bottom margin on last row -->
+                    <!-- HIIT Program -->
+                    <div class="col-lg-4 col-md-6 program-item hiit" data-aos="fade-up" data-aos-delay="100">
+                        <div class="program-card text-center animate-card">
+                            <div class="program-icon">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <span class="program-level intermediate">Intermediate</span>
+                            <h3 class="neon-accent">HIIT Revolution</h3>
+                            <p>Maximize fat burning and boost metabolism with high-intensity interval training.</p>
+
+                            <ul class="program-features">
+                                <li><i class="fas fa-check"></i> Short, intense workouts</li>
+                                <li><i class="fas fa-check"></i> Full-body exercises</li>
+                                <li><i class="fas fa-check"></i> Minimal equipment needed</li>
+                                <li><i class="fas fa-check"></i> Afterburn effect focus</li>
+                            </ul>
+
+                            <div class="program-price">$75<span>/month</span></div>
+                            <div class="program-duration">6-week program</div>
+                            <button class="btn btn-neon-primary">Enroll Now</button>
+                        </div>
+                    </div>
+
+                    <!-- Personal Training -->
+                    <div class="col-lg-4 col-md-6 program-item strength" data-aos="fade-up" data-aos-delay="200">
+                        <div class="program-card text-center animate-card">
+                            <div class="program-icon">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                            <span class="program-level advanced">All Levels</span>
+                            <h3 class="neon-accent">Personal Training</h3>
+                            <p>One-on-one coaching with expert trainers for maximum results.</p>
+
+                            <ul class="program-features">
+                                <li><i class="fas fa-check"></i> Customized workout plans</li>
+                                <li><i class="fas fa-check"></i> Individual attention</li>
+                                <li><i class="fas fa-check"></i> Flexible scheduling</li>
+                                <li><i class="fas fa-check"></i> Comprehensive assessments</li>
+                            </ul>
+
+                            <div class="program-price">$120<span>/session</span></div>
+                            <div class="program-duration">Flexible packages</div>
+                            <button class="btn btn-neon-primary">Enroll Now</button>
+                        </div>
+                    </div>
+
+                    <!-- Group Fitness -->
+                    <div class="col-lg-4 col-md-6 program-item cardio" data-aos="fade-up" data-aos-delay="300">
+                        <div class="program-card text-center animate-card">
+                            <div class="program-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <span class="program-level beginner">All Levels</span>
+                            <h3 class="neon-accent">Group Fitness</h3>
+                            <p>Motivating group classes for all fitness levels in a supportive environment.</p>
+
+                            <ul class="program-features">
+                                <li><i class="fas fa-check"></i> Various class types</li>
+                                <li><i class="fas fa-check"></i> Certified instructors</li>
+                                <li><i class="fas fa-check"></i> Community atmosphere</li>
+                                <li><i class="fas fa-check"></i> Modifications for all levels</li>
+                            </ul>
+
+                            <div class="program-price">$65<span>/month</span></div>
+                            <div class="program-duration">Unlimited classes</div>
+                            <button class="btn btn-neon-primary">Enroll Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Schedule Section -->
+    <section class="schedule-section">
+        <div class="container">
+            <h2 class="section-title neon-secondary" data-aos="fade-up">CLASS SCHEDULE</h2>
+
+            <div class="schedule-table" data-aos="fade-up">
+                <div class="schedule-header">Weekly Class Timetable</div>
+
+                <div class="schedule-row">
+                    <div class="schedule-time">6:00 AM - 7:00 AM</div>
+                    <div class="schedule-classes">
+                        <span class="schedule-class yoga-mindfulness">Yoga & Mindfulness</span>
+                        <span class="schedule-class cardio-blast">Cardio Blast</span>
+                    </div>
+                </div>
+
+                <div class="schedule-row">
+                    <div class="schedule-time">8:00 AM - 9:00 AM</div>
+                    <div class="schedule-classes">
+                        <span class="schedule-class strength-training">Strength Training</span>
+                        <span class="schedule-class hiit-revolution">HIIT Revolution</span>
+                    </div>
+                </div>
+
+                <div class="schedule-row">
+                    <div class="schedule-time">12:00 PM - 1:00 PM</div>
+                    <div class="schedule-classes">
+                        <span class="schedule-class yoga-mindfulness">Yoga & Mindfulness</span>
+                        <span class="schedule-class cardio-blast">Cardio Blast</span>
+                    </div>
+                </div>
+
+                <div class="schedule-row">
+                    <div class="schedule-time">5:00 PM - 6:00 PM</div>
+                    <div class="schedule-classes">
+                        <span class="schedule-class strength-training">Strength Training</span>
+                        <span class="schedule-class hiit-revolution">HIIT Revolution</span>
+                    </div>
+                </div>
+
+                <div class="schedule-row">
+                    <div class="schedule-time">6:30 PM - 7:30 PM</div>
+                    <div class="schedule-classes">
+                        <span class="schedule-class yoga-mindfulness">Yoga & Mindfulness</span>
+                        <span class="schedule-class group-fitness">Group Fitness</span>
+                    </div>
+                </div>
+
+                <div class="schedule-row">
+                    <div class="schedule-time">7:30 PM - 8:30 PM</div>
+                    <div class="schedule-classes">
+                        <span class="schedule-class personal-training">Personal Training</span>
+                        <span class="schedule-class strength-training">Strength Training</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 mb-4" data-aos="fade-up">
+                    <h3 class="neon-primary mb-3">NEXUS<span class="neon-accent">FIT</span></h3>
+                    <p>Premium fitness experience with state-of-the-art facilities and expert trainers to help you achieve your goals.</p>
+                    <div class="social-icons mt-4">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <h4 class="neon-accent mb-3">Contact Info</h4>
+                    <p><i class="fas fa-map-marker-alt me-2 neon-primary"></i> 123 Fitness Street, Gym City</p>
+                    <p><i class="fas fa-phone me-2 neon-primary"></i> (555) 123-4567</p>
+                    <p><i class="fas fa-envelope me-2 neon-primary"></i> info@nexusfit.com</p>
+                    <p><i class="fas fa-clock me-2 neon-primary"></i> Mon-Fri: 5am-11pm, Weekends: 7am-9pm</p>
+                </div>
+            </div>
+            <hr class="my-4" style="border-color: rgba(255,255,255,0.1);">
+            <div class="text-center">
+                <p>&copy; 2023 NexusFit. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <!-- Custom JS -->
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 100
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Program filtering functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const programItems = document.querySelectorAll('.program-item');
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+
+                    // Add active class to clicked button
+                    this.classList.add('active');
+
+                    const filterValue = this.getAttribute('data-filter');
+
+                    programItems.forEach(item => {
+                        if (filterValue === 'all' || item.classList.contains(filterValue)) {
+                            item.style.display = 'block';
+                            // Add animation
+                            item.querySelector('.program-card').classList.add('animate-card');
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+
+            // Enhanced scroll animations
+            const elements = document.querySelectorAll('.program-card, .schedule-table');
+            elements.forEach(element => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(30px)';
+                element.style.transition = 'all 0.6s ease';
+            });
+
+            window.addEventListener('scroll', function() {
+                elements.forEach(element => {
+                    const position = element.getBoundingClientRect();
+                    if (position.top < window.innerHeight * 0.8) {
+                        element.style.opacity = '1';
+                        element.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+
+            // Trigger initial animation
+            setTimeout(() => {
+                window.dispatchEvent(new Event('scroll'));
+            }, 100);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Contact | L'Artisan Café — Noir Edition</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Hammersmith+One&family=Solway:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- FontAwesome for icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <meta name="theme-color" content="#0b0b0b">
+
+  <style>
+    /*
+      Pure Dark Theme: Deep black backgrounds with gold & silver accents
+      Colors:
+        --bg: main black
+        --panel: near-black / charcoal
+        --muted: soft silver
+        --accent-gold: metallic gold
+        --accent-silver: bright silver
+        --white: pure white
+    */
+
+    :root{
+      --bg: #060607;
+      --panel: #0f1112;
+      --muted: #a8adb3;
+      --accent-gold: #c9a96e;
+      --accent-silver: #cfd6db;
+      --white: #ffffff;
+      --glass: rgba(255,255,255,0.03);
+    }
+
+    /* Base */
+    html,body {
+      height:100%;
+      scroll-behavior: smooth;
+    }
+    body{
+      margin:0;
+      font-family: "Solway", serif;
+      background: var(--bg);
+      color: var(--muted);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      overflow-x:hidden;
+      position: relative;
+    }
+
+    /* Animated Background with Floating Circles */
+    .floating-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .floating-circle {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,169,110,0.15) 0%, transparent 70%);
+      filter: blur(40px);
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .floating-circle.silver {
+      background: radial-gradient(circle, rgba(207,214,219,0.1) 0%, transparent 70%);
+    }
+
+    /* Headline font */
+    .brand-face {
+      font-family: "Hammersmith One", sans-serif;
+      letter-spacing: .08em;
+      color:var(--white);
+    }
+
+    /* NAVBAR - Exactly like other pages */
+    .site-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right:0;
+      z-index: 100;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      pointer-events:none;
+      transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+      background: transparent;
+      padding: 16px 0;
+    }
+    .site-nav.scrolled {
+      background: rgba(6, 6, 7, 0.95);
+      backdrop-filter: blur(15px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      padding: 12px 0;
+    }
+    .site-nav .nav-wrap {
+      width:100%;
+      max-width:800px;
+      margin:0 auto;
+      pointer-events:auto;
+      padding: 0 24px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+    .nav-links {
+      display:flex;
+      gap: 12px;
+      align-items:center;
+      border-radius: 999px;
+      padding: 8px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      backdrop-filter: blur(10px);
+    }
+    .nav-links a {
+      color:var(--muted);
+      text-decoration:none;
+      font-weight:600;
+      padding: 12px 24px;
+      border-radius:999px;
+      transition: all .3s ease;
+      position: relative;
+      overflow: hidden;
+      font-size: 1rem;
+      letter-spacing: 0.3px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .nav-links a::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+      transition: left 0.5s ease;
+    }
+    .nav-links a:hover::before {
+      left: 100%;
+    }
+    .nav-links a:hover {
+      color:var(--white);
+      background: rgba(255,255,255,0.03);
+    }
+    .nav-links a.active {
+      color: var(--white);
+      background: rgba(255,255,255,0.05);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    /* Reserve button - Compact stylish button */
+    .btn-reserve {
+      background: linear-gradient(90deg,var(--accent-gold), #b08a4a);
+      color: var(--bg);
+      border-radius: 999px;
+      padding: 12px 24px;
+      font-weight:700;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+      border: none;
+      position:relative;
+      overflow:hidden;
+      transition: all 0.4s ease;
+      font-size: 1rem;
+      letter-spacing: 0.3px;
+      margin-left: 8px;
+    }
+    .btn-reserve::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.6s ease;
+    }
+    .btn-reserve:hover::before {
+      left: 100%;
+    }
+    .btn-reserve:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 35px rgba(184,141,73,0.5);
+    }
+
+    /* CTA Primary Button */
+    .cta-primary {
+      background: linear-gradient(90deg,var(--accent-gold), #b08a4a);
+      color: var(--bg);
+      padding: 16px 32px;
+      border-radius: 12px;
+      font-weight:800;
+      box-shadow: 0 8px 25px rgba(184,141,73,0.3);
+      border: none;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+      font-size: 1rem;
+      letter-spacing: 0.4px;
+      width: 100%;
+    }
+    .cta-primary::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.6s ease;
+    }
+    .cta-primary:hover::before {
+      left: 100%;
+    }
+    .cta-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 35px rgba(184,141,73,0.4);
+    }
+
+    /* Contact Section */
+    .contact-section {
+      padding: 140px 0 80px;
+      position:relative;
+      z-index: 4;
+      min-height: 100vh;
+    }
+    .container-1200{
+      max-width:1200px;
+      margin:0 auto;
+      padding:0 24px;
+    }
+
+    /* Section Headers */
+    .section-header {
+      text-align: center;
+      margin-bottom: 80px;
+    }
+    .section-title {
+      font-family: "Hammersmith One", sans-serif;
+      font-size: 3.2rem;
+      color: var(--white);
+      margin-bottom: 20px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+    .gold-line {
+      height:4px;
+      width:140px;
+      background: linear-gradient(90deg,var(--accent-gold), var(--accent-silver));
+      margin:20px auto 30px;
+      border-radius:4px;
+      position: relative;
+      overflow: hidden;
+    }
+    .gold-line::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+      animation: shimmer 3s infinite;
+    }
+    .section-subtitle {
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: 1.3rem;
+      line-height: 1.7;
+      color: var(--accent-silver);
+      font-weight: 300;
+    }
+
+    /* Contact Layout */
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      margin-bottom: 80px;
+    }
+
+    /* Contact Info */
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .info-card {
+      background: linear-gradient(135deg, var(--panel) 0%, #1a1d20 100%);
+      border-radius: 20px;
+      padding: 40px 35px;
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: all 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+      backdrop-filter: blur(10px);
+    }
+
+    .info-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+      transform: scaleX(0);
+      transition: transform 0.6s ease;
+    }
+
+    .info-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .info-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+      border-color: rgba(255,255,255,0.12);
+    }
+
+    .info-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--accent-gold), #d4b483);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 25px;
+      color: var(--bg);
+      font-size: 2rem;
+      transition: all 0.4s ease;
+    }
+
+    .info-card:hover .info-icon {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    .info-title {
+      font-family: "Hammersmith One", sans-serif;
+      font-size: 1.6rem;
+      color: var(--white);
+      margin-bottom: 15px;
+    }
+
+    .info-content {
+      color: var(--accent-silver);
+      line-height: 1.7;
+      font-size: 1.1rem;
+    }
+
+    .info-detail {
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.1rem;
+    }
+
+    .info-detail i {
+      color: var(--accent-gold);
+      width: 20px;
+      font-size: 1.2rem;
+    }
+
+    /* Contact Form */
+    .contact-form-container {
+      background: linear-gradient(135deg, var(--panel) 0%, #1a1d20 100%);
+      border-radius: 20px;
+      padding: 50px 40px;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+      height: fit-content;
+      backdrop-filter: blur(10px);
+    }
+
+    .form-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .form-title {
+      font-family: "Hammersmith One", sans-serif;
+      font-size: 2rem;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+
+    .form-subtitle {
+      color: var(--accent-silver);
+      font-size: 1.1rem;
+    }
+
+    .form-group {
+      margin-bottom: 30px;
+      position: relative;
+    }
+
+    .form-label {
+      color: var(--accent-silver);
+      font-weight: 600;
+      margin-bottom: 12px;
+      display: block;
+      font-size: 1.1rem;
+    }
+
+    .form-control {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      color: var(--accent-silver);
+      padding: 16px 20px;
+      font-size: 1.1rem;
+      transition: all 0.4s ease;
+      width: 100%;
+    }
+
+    .form-control::placeholder {
+      color: var(--muted);
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--accent-gold);
+      box-shadow: 0 0 0 3px rgba(201,169,110,0.15);
+      background: rgba(255,255,255,0.05);
+      transform: translateY(-2px);
+    }
+
+    textarea.form-control {
+      min-height: 140px;
+      resize: vertical;
+    }
+
+    /* Map Section */
+    .map-section {
+      margin-top: 60px;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+      height: 500px;
+      position: relative;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    #map {
+      width: 100%;
+      height: 100%;
+      border-radius: 20px;
+    }
+
+    .map-overlay {
+      position: absolute;
+      top: 30px;
+      left: 30px;
+      background: linear-gradient(135deg, var(--panel) 0%, #1a1d20 100%);
+      padding: 25px 30px;
+      border-radius: 15px;
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+      max-width: 300px;
+      backdrop-filter: blur(10px);
+    }
+
+    .map-overlay-title {
+      font-family: "Hammersmith One", sans-serif;
+      color: var(--white);
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+    }
+
+    .map-overlay-content {
+      color: var(--accent-silver);
+      line-height: 1.6;
+    }
+
+    /* Social Links */
+    .social-section {
+      text-align: center;
+      margin-top: 60px;
+    }
+
+    .social-title {
+      font-family: "Hammersmith One", sans-serif;
+      color: var(--white);
+      font-size: 1.8rem;
+      margin-bottom: 25px;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .social-link {
+      width: 60px;
+      height: 60px;
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--panel) 0%, #1a1d20 100%);
+      color: var(--accent-silver);
+      text-decoration: none;
+      transition: all 0.4s ease;
+      border: 1px solid rgba(255,255,255,0.08);
+      font-size: 1.4rem;
+    }
+
+    .social-link:hover {
+      background: linear-gradient(135deg, var(--accent-gold), #d4b483);
+      color: var(--bg);
+      transform: translateY(-5px) scale(1.1);
+      box-shadow: 0 15px 30px rgba(184,141,73,0.4);
+    }
+
+    /* Footer - Exactly like other pages */
+    footer {
+      padding: 80px 0 40px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.2));
+      border-top:1px solid rgba(255,255,255,0.03);
+      margin-top:80px;
+      position: relative;
+    }
+    footer::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+    }
+    .footer-grid {
+      display:grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap:30px;
+      max-width:1200px;
+      margin:0 auto;
+      color:var(--muted);
+      padding: 0 24px;
+    }
+    .footer-section {
+      margin-bottom: 20px;
+    }
+    .social-icons {
+      display: flex;
+      gap: 12px;
+      margin-top: 15px;
+    }
+    .social-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.05);
+      color: var(--accent-silver);
+      transition: all 0.4s ease;
+      text-decoration: none;
+    }
+    .social-icon:hover {
+      background: var(--accent-gold);
+      color: var(--bg);
+      transform: translateY(-3px) scale(1.1);
+    }
+
+    /* Animations */
+    @keyframes shimmer {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0) rotate(0deg) scale(1);
+      }
+      33% {
+        transform: translateY(-30px) rotate(120deg) scale(1.1);
+      }
+      66% {
+        transform: translateY(15px) rotate(240deg) scale(0.9);
+      }
+    }
+
+    .reveal {
+      opacity:0;
+      transform: translateY(30px);
+      transition: all 800ms cubic-bezier(.2,.9,.2,1);
+    }
+    .reveal.show {
+      opacity:1;
+      transform: translateY(0);
+    }
+    .page-load-animation {
+      animation: fadeInUp 1s ease forwards;
+    }
+
+    /* Responsive */
+    @media (max-width: 992px){
+      .contact-layout {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .section-title {
+        font-size: 2.5rem;
+      }
+    }
+    @media (max-width: 768px){
+      .contact-form-container {
+        padding: 40px 30px;
+      }
+      .info-card {
+        padding: 30px 25px;
+      }
+      .map-overlay {
+        position: relative;
+        top: 0;
+        left: 0;
+        max-width: 100%;
+        margin: 20px;
+      }
+      .social-links {
+        gap: 15px;
+      }
+      .social-link {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+      }
+    }
+    @media (max-width: 640px){
+      .section-title {
+        font-size: 2rem;
+      }
+      .contact-section {
+        padding: 120px 0 60px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Animated Floating Background -->
+  <div class="floating-background" id="floatingBackground"></div>
+
+  <!-- NAV - Exactly like other pages -->
+  <div class="site-nav">
+    <div class="nav-wrap">
+      <div class="nav-links">
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'about' %}">About</a>
+        <a href="{% url 'menu' %}">Menu</a>
+        <a href="{% url 'gallery' %}">Gallery</a>
+        <!-- Reserve button integrated into nav -->
+        <button class="btn-reserve" data-bs-toggle="modal" data-bs-target="#reserveModal" aria-label="Reserve a table">
+          <span class="label"><i class="fa fa-utensils me-2" aria-hidden="true"></i>Reserve</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact Section -->
+  <section class="contact-section">
+    <div class="container-1200">
+
+      <div class="section-header">
+        <h2 class="section-title page-load-animation">Connect With Us</h2>
+        <div class="gold-line"></div>
+        <p class="section-subtitle page-load-animation">Experience the art of conversation at L'Artisan Café. We're here to make your visit extraordinary.</p>
+      </div>
+
+      <div class="contact-layout">
+        <!-- Contact Information -->
+        <div class="contact-info">
+          <div class="info-card reveal">
+            <div class="info-icon">
+              <i class="fas fa-map-marker-alt"></i>
+            </div>
+            <h3 class="info-title">Our Location</h3>
+            <div class="info-content">
+              <div class="info-detail">
+                <i class="fas fa-location-dot"></i>
+                <span>123 Rue de la Paix, 75002 Paris</span>
+              </div>
+              <div class="info-detail">
+                <i class="fas fa-clock"></i>
+                <span>Mon-Sun: 8:00 AM - 10:00 PM</span>
+              </div>
+              <div class="info-detail">
+                <i class="fas fa-metro"></i>
+                <span>Metro: Opéra (Lines 3, 7, 8)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-card reveal">
+            <div class="info-icon">
+              <i class="fas fa-phone"></i>
+            </div>
+            <h3 class="info-title">Get In Touch</h3>
+            <div class="info-content">
+              <div class="info-detail">
+                <i class="fas fa-phone"></i>
+                <span>+33 1 42 60 15 08</span>
+              </div>
+              <div class="info-detail">
+                <i class="fas fa-envelope"></i>
+                <span>contact@lartisancafe.fr</span>
+              </div>
+              <div class="info-detail">
+                <i class="fas fa-calendar"></i>
+                <span>events@lartisancafe.fr</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-card reveal">
+            <div class="info-icon">
+              <i class="fas fa-star"></i>
+            </div>
+            <h3 class="info-title">Special Services</h3>
+            <div class="info-content">
+              <p>From intimate gatherings to corporate events, our team crafts unforgettable experiences with Parisian elegance and modern sophistication.</p>
+              <div class="info-detail">
+                <i class="fas fa-check"></i>
+                <span>Private Events & Catering</span>
+              </div>
+              <div class="info-detail">
+                <i class="fas fa-check"></i>
+                <span>Coffee Masterclasses</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="contact-form-container reveal">
+          <div class="form-header">
+            <h3 class="form-title">Send Us a Message</h3>
+            <p class="form-subtitle">We'll respond within 24 hours</p>
+          </div>
+          <form id="contactForm">
+            <div class="form-group">
+              <label class="form-label">Full Name</label>
+              <input type="text" class="form-control" placeholder="Enter your full name" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Email Address</label>
+              <input type="email" class="form-control" placeholder="Enter your email address" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Phone Number</label>
+              <input type="tel" class="form-control" placeholder="Enter your phone number">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Subject</label>
+              <select class="form-control" required>
+                <option value="">Select inquiry type</option>
+                <option value="reservation">Reservation Inquiry</option>
+                <option value="event">Event Planning</option>
+                <option value="catering">Catering Services</option>
+                <option value="feedback">Feedback</option>
+                <option value="partnership">Partnership</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Message</label>
+              <textarea class="form-control" placeholder="Tell us about your inquiry..." rows="6" required></textarea>
+            </div>
+
+            <button type="submit" class="cta-primary">Send Message</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Map Section -->
+      <div class="map-section reveal">
+        <div id="map"></div>
+        <div class="map-overlay">
+          <h4 class="map-overlay-title">L'Artisan Café</h4>
+          <div class="map-overlay-content">
+            <div>123 Rue de la Paix</div>
+            <div>75002 Paris, France</div>
+            <div>+33 1 42 60 15 08</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Social Links -->
+      <div class="social-section reveal">
+        <h3 class="social-title">Follow Our Journey</h3>
+        <div class="social-links">
+          <a href="#" class="social-link" aria-label="Instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="#" class="social-link" aria-label="Facebook">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="#" class="social-link" aria-label="Twitter">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="#" class="social-link" aria-label="TripAdvisor">
+            <i class="fab fa-tripadvisor"></i>
+          </a>
+          <a href="#" class="social-link" aria-label="YouTube">
+            <i class="fab fa-youtube"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER - Exactly like other pages -->
+  <footer id="contact">
+    <div class="footer-grid">
+      <div class="footer-section">
+        <h4 class="brand-face page-load-animation" style="color:var(--white);">L'Artisan Café</h4>
+        <div class="muted page-load-animation" style="margin-top:8px;">Noir collection · Parisian-inspired · Modern craft</div>
+        <div style="margin-top:12px;">
+          <div class="silver-pill page-load-animation" style="display:inline-block; margin-top:12px;">Open daily • 8:00 am — 10:00 pm</div>
+        </div>
+      </div>
+
+      <div class="footer-section">
+        <h5 class="page-load-animation" style="color:var(--accent-gold); margin-bottom:10px;">Contact</h5>
+        <div class="muted page-load-animation">123 Rue de la Paix, Paris</div>
+        <div class="muted page-load-animation">+33 1 42 60 15 08</div>
+        <div class="muted page-load-animation">contact@lartisancafe.fr</div>
+      </div>
+
+      <div class="footer-section">
+        <h5 class="page-load-animation" style="color:var(--accent-gold); margin-bottom:10px;">Follow</h5>
+        <div class="social-icons">
+          <a class="social-icon page-load-animation" href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a class="social-icon page-load-animation" href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a class="social-icon page-load-animation" href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center; padding:18px 0; color:rgba(255,255,255,0.28); font-size:.9rem;">
+      © <span id="yr"></span> L'Artisan Café — Noir. Crafted by Venora Digitech.
+    </div>
+  </footer>
+
+  <!-- RESERVATION MODAL -->
+  <div class="modal fade" id="reserveModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header" style="background: linear-gradient(90deg,var(--accent-gold), var(--accent-silver)); color:var(--bg);">
+          <h5 class="modal-title brand-face">Reserve a Table</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="reserveForm">
+            <div class="row g-2">
+              <div class="col-12 col-md-6">
+                <label class="form-label">Full name</label>
+                <input class="form-control" type="text" id="rname" required>
+              </div>
+              <div class="col-12 col-md-6">
+                <label class="form-label">Email</label>
+                <input class="form-control" type="email" id="remail" required>
+              </div>
+              <div class="col-6 col-md-4">
+                <label class="form-label">No. of Guests</label>
+                <input class="form-control" type="number" id="rguests" required>
+              </div>
+              <div class="col-6 col-md-4">
+                <label class="form-label">Date</label>
+                <input class="form-control" type="date" id="rdate" required>
+              </div>
+              <div class="col-12 col-md-4">
+                <label class="form-label">Time</label>
+                <input class="form-control" type="time" id="rtime" required>
+              </div>
+
+              <div class="col-12">
+                <label class="form-label">Special requests</label>
+                <textarea class="form-control" id="rnotes" rows="3" placeholder="Allergies, celebration notes..."></textarea>
+              </div>
+
+              <div class="col-12" style="margin-top:8px;">
+                <button class="cta-primary w-100" type="submit">Confirm Reservation</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <script>
+    // Footer year
+    document.getElementById('yr').textContent = new Date().getFullYear();
+
+    // Create floating circles background
+    function createFloatingCircles() {
+      const background = document.getElementById('floatingBackground');
+      const colors = ['gold', 'silver'];
+
+      for (let i = 0; i < 15; i++) {
+        const circle = document.createElement('div');
+        const size = Math.random() * 200 + 100;
+        const color = colors[Math.floor(Math.random() * colors.length)];
+
+        circle.className = `floating-circle ${color}`;
+        circle.style.width = `${size}px`;
+        circle.style.height = `${size}px`;
+        circle.style.left = `${Math.random() * 100}%`;
+        circle.style.top = `${Math.random() * 100}%`;
+        circle.style.animationDelay = `${Math.random() * 8}s`;
+        circle.style.animationDuration = `${Math.random() * 10 + 10}s`;
+
+        background.appendChild(circle);
+      }
+    }
+
+    // Initialize Map
+    function initMap() {
+      const cafeLocation = [48.8686, 2.3300];
+
+      const map = L.map('map').setView(cafeLocation, 16);
+
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        subdomains: 'abcd',
+        maxZoom: 20
+      }).addTo(map);
+
+      const cafeIcon = L.divIcon({
+        html: '<div style="background: linear-gradient(135deg, #c9a96e, #d4b483); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #060607; font-size: 1.2rem; border: 3px solid white; box-shadow: 0 4px 15px rgba(0,0,0,0.3);"><i class="fas fa-coffee"></i></div>',
+        className: 'custom-div-icon',
+        iconSize: [40, 40],
+        iconAnchor: [20, 20]
+      });
+
+      L.marker(cafeLocation, {icon: cafeIcon}).addTo(map)
+        .bindPopup(`
+          <div style="text-align: center; padding: 10px;">
+            <h4 style="margin: 0 0 8px 0; color: #1a1a1a; font-weight: bold;">L\'Artisan Café</h4>
+            <p style="margin: 0; color: #666;">123 Rue de la Paix<br>75002 Paris</p>
+          </div>
+        `)
+        .openPopup();
+    }
+
+    // Initialize everything when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      createFloatingCircles();
+      initMap();
+    });
+
+    // IntersectionObserver to reveal elements elegantly
+    (function revealOnScroll() {
+      const items = document.querySelectorAll('.reveal');
+      const obs = new IntersectionObserver((entries)=>{
+        entries.forEach(ent => {
+          if(ent.isIntersecting){
+            ent.target.classList.add('show');
+            obs.unobserve(ent.target);
+          }
+        });
+      }, {threshold: 0.1});
+      items.forEach(i => obs.observe(i));
+    })();
+
+    // Enhanced scroll effect for navbar
+    window.addEventListener('scroll', ()=>{
+      const nav = document.querySelector('.site-nav');
+      if(!nav) return;
+
+      if(window.scrollY > 60){
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
+    });
+
+    // Contact form submission
+    (function contactFormHandler(){
+      const form = document.getElementById('contactForm');
+      if(!form) return;
+      form.addEventListener('submit', (e)=>{
+        e.preventDefault();
+
+        const toast = document.createElement('div');
+        toast.innerHTML = '<div style="padding:16px 22px; border-radius:14px; background: linear-gradient(90deg,var(--accent-gold),#d4b483); color:#060607; font-weight:700; box-shadow:0 15px 45px rgba(0,0,0,0.6);">Message sent successfully! We\'ll get back to you within 24 hours.</div>';
+        Object.assign(toast.style, { position:'fixed', right:'25px', bottom:'30px', zIndex:99999, opacity:0, transition:'all .4s cubic-bezier(0.215, 0.61, 0.355, 1)' });
+        document.body.appendChild(toast);
+        requestAnimationFrame(()=> toast.style.opacity = 1);
+        setTimeout(()=> { toast.style.opacity = 0; setTimeout(()=> toast.remove(), 500); }, 4000);
+
+        form.reset();
+      });
+    })();
+
+    // Reservation form handler
+    (function reservationHandler(){
+      const form = document.getElementById('reserveForm');
+      if(!form) return;
+      form.addEventListener('submit', (e)=>{
+        e.preventDefault();
+
+        const modalEl = document.getElementById('reserveModal');
+        const modal = bootstrap.Modal.getInstance(modalEl);
+        if(modal) modal.hide();
+
+        const toast = document.createElement('div');
+        toast.innerHTML = '<div style="padding:16px 22px; border-radius:14px; background: linear-gradient(90deg,var(--accent-gold),#d4b483); color:#060607; font-weight:700; box-shadow:0 15px 45px rgba(0,0,0,0.6);">Reservation received — we\'ll confirm shortly.</div>';
+        Object.assign(toast.style, { position:'fixed', right:'25px', bottom:'30px', zIndex:99999, opacity:0, transition:'all .4s cubic-bezier(0.215, 0.61, 0.355, 1)' });
+        document.body.appendChild(toast);
+        requestAnimationFrame(()=> toast.style.opacity = 1);
+        setTimeout(()=> { toast.style.opacity = 0; setTimeout(()=> toast.remove(), 500); }, 4000);
+
+        form.reset();
+      });
+    })();
+
+    // Add subtle animation to gold line
+    const goldLines = document.querySelectorAll('.gold-line');
+    goldLines.forEach(line => {
+      line.style.animationDelay = `${Math.random() * 2}s`;
+    });
+  </script>
+</body>
+</html>

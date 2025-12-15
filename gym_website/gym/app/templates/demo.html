@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexusFit | Book Demo Class</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- AOS CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00ff9d;
+            --secondary: #ff00c8;
+            --accent: #00e5ff;
+            --dark: #0a0a0a;
+            --darker: #050505;
+            --light: #f8f9fa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .neon-primary {
+            color: var(--primary);
+            text-shadow: 0 0 10px rgba(0, 255, 157, 0.7);
+        }
+
+        .neon-secondary {
+            color: var(--secondary);
+            text-shadow: 0 0 10px rgba(255, 0, 200, 0.7);
+        }
+
+        .neon-accent {
+            color: var(--accent);
+            text-shadow: 0 0 10px rgba(0, 229, 255, 0.7);
+        }
+
+        .btn-neon-primary {
+            background-color: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            border-radius: 30px;
+            padding: 12px 30px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(0, 255, 157, 0.5);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn-neon-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 157, 0.2), transparent);
+            transition: 0.5s;
+            z-index: -1;
+        }
+
+        .btn-neon-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-neon-primary:hover {
+            background-color: var(--primary);
+            color: var(--dark);
+            box-shadow: 0 0 25px rgba(0, 255, 157, 0.8);
+            transform: translateY(-3px);
+        }
+
+        .btn-neon-secondary {
+            background-color: transparent;
+            color: var(--secondary);
+            border: 2px solid var(--secondary);
+            border-radius: 30px;
+            padding: 12px 30px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(255, 0, 200, 0.5);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn-neon-secondary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 0, 200, 0.2), transparent);
+            transition: 0.5s;
+            z-index: -1;
+        }
+
+        .btn-neon-secondary:hover::before {
+            left: 100%;
+        }
+
+        .btn-neon-secondary:hover {
+            background-color: var(--secondary);
+            color: var(--dark);
+            box-shadow: 0 0 25px rgba(255, 0, 200, 0.8);
+            transform: translateY(-3px);
+        }
+
+        .page-heading {
+            padding: 180px 0 40px;
+            text-align: center;
+            background-color: var(--dark);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-heading::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+        }
+
+        .section-title {
+            position: relative;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--primary);
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        /* Booking Form Section */
+        .booking-form-section {
+            background: var(--dark);
+            padding: 5rem 0;
+            position: relative;
+        }
+
+        .booking-form-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, var(--secondary), var(--accent));
+        }
+
+        .booking-form {
+            background: linear-gradient(145deg, rgba(20, 20, 20, 0.9), rgba(30, 30, 30, 0.8));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 3rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .booking-form:hover {
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+            border-color: var(--primary);
+        }
+
+        .form-control {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: var(--light);
+            padding: 12px 20px;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(0, 255, 157, 0.3);
+            color: var(--light);
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .form-label {
+            color: var(--light);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        /* Enhanced Dropdown Styling */
+        .form-select {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: var(--light);
+            padding: 12px 20px;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%2300ff9d' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 20px center;
+            background-size: 16px 12px;
+            cursor: pointer;
+        }
+
+        .form-select:focus {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(0, 255, 157, 0.3);
+            color: var(--light);
+        }
+
+        .form-select option {
+            background: var(--darker);
+            color: var(--light);
+            padding: 10px;
+        }
+
+        .form-select:hover {
+            border-color: var(--accent);
+        }
+
+        /* Time Slots */
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .time-slot {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .time-slot:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .time-slot.selected {
+            background: rgba(0, 255, 157, 0.1);
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(0, 255, 157, 0.3);
+        }
+
+        .time-slot.disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .time-slot.disabled:hover {
+            transform: none;
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Success Message */
+        .success-message {
+            background: linear-gradient(145deg, rgba(0, 255, 157, 0.1), rgba(0, 229, 255, 0.1));
+            border: 1px solid var(--primary);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 2rem;
+            display: none;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .success-message i {
+            color: var(--primary);
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer {
+            background-color: var(--dark);
+            padding: 3rem 0 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .social-icons a {
+            display: inline-block;
+            width: 45px;
+            height: 45px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 45px;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            background-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 255, 157, 0.4);
+        }
+
+        .navbar {
+            background-color: var(--dark);
+            padding: 1.2rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            background-color: rgba(5, 5, 5, 0.95);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            padding: 0.8rem 0;
+        }
+
+        .navbar-brand {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 2rem;
+            color: var(--primary) !important;
+            text-shadow: 0 0 10px rgba(0, 255, 157, 0.7);
+        }
+
+        .nav-link {
+            color: var(--light) !important;
+            font-weight: 600;
+            margin: 0 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link:hover {
+            color: var(--primary) !important;
+        }
+
+        /* Animation for cards */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-card {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        /* Floating shapes */
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .shape {
+            position: absolute;
+            opacity: 0.15;
+            animation: float 20s infinite linear, glow 8s infinite alternate;
+            filter: blur(1px);
+        }
+
+        .shape-1 {
+            width: 120px;
+            height: 120px;
+            background: var(--primary);
+            border-radius: 50%;
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+
+        .shape-2 {
+            width: 180px;
+            height: 180px;
+            background: var(--secondary);
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            top: 60%;
+            left: 80%;
+            animation-delay: 2s;
+        }
+
+        .shape-3 {
+            width: 100px;
+            height: 100px;
+            background: var(--accent);
+            border-radius: 50%;
+            top: 80%;
+            left: 10%;
+            animation-delay: 4s;
+        }
+
+        .shape-4 {
+            width: 140px;
+            height: 140px;
+            background: var(--primary);
+            border-radius: 40% 60% 60% 40% / 40% 40% 60% 60%;
+            top: 20%;
+            left: 70%;
+            animation-delay: 6s;
+        }
+
+        .shape-5 {
+            width: 110px;
+            height: 110px;
+            background: var(--secondary);
+            border-radius: 50%;
+            top: 40%;
+            left: 85%;
+            animation-delay: 8s;
+        }
+
+        .shape-6 {
+            width: 130px;
+            height: 130px;
+            background: var(--accent);
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            top: 70%;
+            left: 20%;
+            animation-delay: 10s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes glow {
+            0% {
+                opacity: 0.1;
+            }
+            100% {
+                opacity: 0.2;
+            }
+        }
+
+        /* Text glow animation */
+        .neon-primary, .neon-secondary, .neon-accent {
+            animation: text-glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes text-glow {
+            from {
+                text-shadow: 0 0 10px currentColor;
+            }
+            to {
+                text-shadow: 0 0 20px currentColor, 0 0 30px currentColor;
+            }
+        }
+
+        /* Improved responsive spacing */
+        @media (max-width: 768px) {
+            .page-heading {
+                padding: 160px 0 30px;
+            }
+
+            .booking-form {
+                padding: 2rem;
+            }
+
+            .time-slots {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            }
+        }
+
+        /* Form validation styles */
+        .form-control:invalid {
+            border-color: var(--secondary);
+        }
+
+        .form-control:valid {
+            border-color: var(--primary);
+        }
+
+        .submit-btn {
+            width: 100%;
+            margin-top: 1rem;
+            font-size: 1.1rem;
+            padding: 15px 30px;
+        }
+
+        /* Calendar styling */
+        .calendar-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+
+        .calendar-day {
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .calendar-day:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .calendar-day.selected {
+            background: var(--primary);
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        .calendar-day.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .calendar-day.disabled:hover {
+            background: transparent;
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Shapes Background -->
+    <div class="floating-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div class="shape shape-4"></div>
+        <div class="shape shape-5"></div>
+        <div class="shape shape-6"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">NEXUS<span class="neon-accent">FIT</span></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'programs' %}">Programs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'trainers' %}">Trainers</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'memberships' %}">Memberships</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Heading -->
+    <section class="page-heading">
+        <div class="container">
+            <h1 class="display-3 fw-bold">BOOK YOUR <span class="neon-primary">DEMO CLASS</span></h1>
+            <p class="lead mt-3">Experience our premium fitness classes firsthand. Book your free demo session today!</p>
+        </div>
+    </section>
+
+    <!-- Booking Form Section -->
+    <section class="booking-form-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10" data-aos="fade-up" data-aos-delay="100">
+                    <form class="booking-form" id="bookingForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="firstName" class="form-label">First Name</label>
+                                    <input type="text" class="form-control" id="firstName" placeholder="Enter your first name" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="lastName" class="form-label">Last Name</label>
+                                    <input type="text" class="form-control" id="lastName" placeholder="Enter your last name" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email Address</label>
+                                    <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="phone" class="form-label">Phone Number</label>
+                                    <input type="tel" class="form-control" id="phone" placeholder="Enter your phone number" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="classType" class="form-label">Class Type</label>
+                            <select class="form-select" id="classType" required>
+                                <option value="">Select a class</option>
+                                <option value="hiit">HIIT Blast</option>
+                                <option value="yoga">Yoga Flow</option>
+                                <option value="strength">Power Lifting</option>
+                                <option value="cardio">Cardio Fusion</option>
+                                <option value="pilates">Pilates Core</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Preferred Date</label>
+                            <div class="calendar-container">
+                                <div class="calendar-header">
+                                    <button type="button" class="btn btn-sm btn-neon-secondary" id="prevWeek"><i class="fas fa-chevron-left"></i></button>
+                                    <h6 class="mb-0" id="currentWeek">Week of June 12</h6>
+                                    <button type="button" class="btn btn-sm btn-neon-secondary" id="nextWeek"><i class="fas fa-chevron-right"></i></button>
+                                </div>
+                                <div class="calendar-grid" id="calendarGrid">
+                                    <!-- Calendar days will be generated by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Preferred Time</label>
+                            <div class="time-slots">
+                                <div class="time-slot" data-time="06:00">6:00 AM</div>
+                                <div class="time-slot" data-time="08:00">8:00 AM</div>
+                                <div class="time-slot" data-time="10:00">10:00 AM</div>
+                                <div class="time-slot" data-time="12:00">12:00 PM</div>
+                                <div class="time-slot" data-time="14:00">2:00 PM</div>
+                                <div class="time-slot" data-time="16:00">4:00 PM</div>
+                                <div class="time-slot" data-time="18:00">6:00 PM</div>
+                                <div class="time-slot" data-time="20:00">8:00 PM</div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="fitnessLevel" class="form-label">Fitness Level</label>
+                            <select class="form-select" id="fitnessLevel" required>
+                                <option value="">Select your level</option>
+                                <option value="beginner">Beginner</option>
+                                <option value="intermediate">Intermediate</option>
+                                <option value="advanced">Advanced</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="goals" class="form-label">Fitness Goals</label>
+                            <select class="form-select" id="goals" required>
+                                <option value="">Select your goals</option>
+                                <option value="weight-loss">Weight Loss</option>
+                                <option value="muscle-gain">Muscle Gain</option>
+                                <option value="strength">Strength Building</option>
+                                <option value="flexibility">Flexibility</option>
+                                <option value="endurance">Endurance</option>
+                                <option value="general">General Fitness</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="notes" class="form-label">Additional Notes (Optional)</label>
+                            <textarea class="form-control" id="notes" rows="3" placeholder="Any specific requirements or questions..."></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-neon-primary submit-btn">Book Demo Class</button>
+                    </form>
+
+                    <div class="success-message" id="successMessage">
+                        <i class="fas fa-check-circle"></i>
+                        <h3 class="neon-primary">Booking Confirmed!</h3>
+                        <p>Thank you for booking a demo class with NexusFit. We've sent a confirmation email with all the details.</p>
+                        <p class="mt-3">We're excited to help you achieve your fitness goals!</p>
+                        <button class="btn btn-neon-secondary mt-3" id="bookAnother">Book Another Class</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 mb-4" data-aos="fade-up">
+                    <h3 class="neon-primary mb-3">NEXUS<span class="neon-accent">FIT</span></h3>
+                    <p>Premium fitness experience with state-of-the-art facilities and expert trainers to help you achieve your goals.</p>
+                    <div class="social-icons mt-4">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <h4 class="neon-accent mb-3">Contact Info</h4>
+                    <p><i class="fas fa-map-marker-alt me-2 neon-primary"></i> 123 Fitness Street, Gym City</p>
+                    <p><i class="fas fa-phone me-2 neon-primary"></i> (555) 123-4567</p>
+                    <p><i class="fas fa-envelope me-2 neon-primary"></i> info@nexusfit.com</p>
+                    <p><i class="fas fa-clock me-2 neon-primary"></i> Mon-Fri: 5am-11pm, Weekends: 7am-9pm</p>
+                </div>
+            </div>
+            <hr class="my-4" style="border-color: rgba(255,255,255,0.1);">
+            <div class="text-center">
+                <p>&copy; 2023 NexusFit. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <!-- Custom JS -->
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 100
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Time slot selection
+        document.querySelectorAll('.time-slot').forEach(slot => {
+            slot.addEventListener('click', function() {
+                if (!this.classList.contains('disabled')) {
+                    document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
+                    this.classList.add('selected');
+                }
+            });
+        });
+
+        // Calendar functionality
+        let currentDate = new Date();
+
+        function generateCalendar() {
+            const calendarGrid = document.getElementById('calendarGrid');
+            const currentWeek = document.getElementById('currentWeek');
+
+            // Clear previous calendar
+            calendarGrid.innerHTML = '';
+
+            // Set week header
+            const startOfWeek = new Date(currentDate);
+            startOfWeek.setDate(currentDate.getDate() - currentDate.getDay());
+
+            const endOfWeek = new Date(startOfWeek);
+            endOfWeek.setDate(startOfWeek.getDate() + 6);
+
+            currentWeek.textContent = `Week of ${formatDate(startOfWeek)}`;
+
+            // Generate days
+            for (let i = 0; i < 7; i++) {
+                const day = new Date(startOfWeek);
+                day.setDate(startOfWeek.getDate() + i);
+
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+                dayElement.textContent = day.getDate();
+                dayElement.setAttribute('data-date', day.toISOString().split('T')[0]);
+
+                // Disable past dates
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                if (day < today) {
+                    dayElement.classList.add('disabled');
+                }
+
+                // Add click event
+                dayElement.addEventListener('click', function() {
+                    if (!this.classList.contains('disabled')) {
+                        document.querySelectorAll('.calendar-day').forEach(d => d.classList.remove('selected'));
+                        this.classList.add('selected');
+                    }
+                });
+
+                calendarGrid.appendChild(dayElement);
+            }
+        }
+
+        function formatDate(date) {
+            const months = ['January', 'February', 'March', 'April', 'May', 'June',
+                           'July', 'August', 'September', 'October', 'November', 'December'];
+            return `${months[date.getMonth()]} ${date.getDate()}`;
+        }
+
+        // Initialize calendar
+        generateCalendar();
+
+        // Week navigation
+        document.getElementById('prevWeek').addEventListener('click', function() {
+            currentDate.setDate(currentDate.getDate() - 7);
+            generateCalendar();
+        });
+
+        document.getElementById('nextWeek').addEventListener('click', function() {
+            currentDate.setDate(currentDate.getDate() + 7);
+            generateCalendar();
+        });
+
+        // Form submission
+        document.getElementById('bookingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Show success message
+            document.getElementById('successMessage').style.display = 'block';
+            document.getElementById('bookingForm').style.display = 'none';
+
+            // Scroll to success message
+            document.getElementById('successMessage').scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+
+        // Book another class
+        document.getElementById('bookAnother').addEventListener('click', function() {
+            document.getElementById('successMessage').style.display = 'none';
+            document.getElementById('bookingForm').style.display = 'block';
+            document.getElementById('bookingForm').reset();
+            document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
+            document.querySelectorAll('.calendar-day').forEach(d => d.classList.remove('selected'));
+
+            // Scroll to form
+            document.getElementById('bookingForm').scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+
+        // Enhanced scroll animations
+        const elements = document.querySelectorAll('.booking-form');
+        elements.forEach(element => {
+            element.style.opacity = '0';
+            element.style.transform = 'translateY(30px)';
+            element.style.transition = 'all 0.6s ease';
+        });
+
+        window.addEventListener('scroll', function() {
+            elements.forEach(element => {
+                const position = element.getBoundingClientRect();
+                if (position.top < window.innerHeight * 0.8) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        });
+
+        // Trigger initial animation
+        setTimeout(() => {
+            window.dispatchEvent(new Event('scroll'));
+        }, 100);
+    </script>
+</body>
+</html>
